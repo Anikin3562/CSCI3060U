@@ -1,0 +1,9 @@
+Enter your name:
+Welcome!
+Creating Account:
+Enter your desired username:
+Which privileges will this account have? 
+Existing privileges are: admin, full-standard, sell-standard, buy-standard
+User role specified as: admin
+How much credit will this user be created with?
+ERROR: The maximum amount of credit a user can be created with is 999,999!

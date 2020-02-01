@@ -1,0 +1,5 @@
+Creating Account:
+Enter the desired username:
+Which privileges will this account have? 
+Existing privileges are: admin, full-standard, sell-standard, buy-standard
+ERROR: This prvilege does not exist!

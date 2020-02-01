@@ -1,0 +1,10 @@
+Enter your name:
+Welcome!
+Creating Account:
+Enter your desired username:
+Which privileges will this account have? 
+Existing privileges are: admin, full-standard, sell-standard, buy-standard
+User role specified as: admin
+Enter the transaction you wish to locate:
+ERROR: This transaction cannot be found in the Daily Transaction File!
+

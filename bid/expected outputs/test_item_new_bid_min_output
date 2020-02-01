@@ -1,0 +1,7 @@
+Enter your username: 
+Welcome!
+Enter the name of the user auctioning the item: 
+Enter the name of the item being auctioned:
+Highest bid is: 15
+Enter your bid: 
+ERROR: Your bid must be at least 5% greater than the current bid.

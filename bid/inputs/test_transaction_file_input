@@ -1,0 +1,16 @@
+login
+ss-user-1
+advertise
+ss-user-1-item-2
+15
+3
+logout
+login
+admin-user-1
+bid
+ss-user-1
+ss-user-1-item-2
+16.00
+logout
+test-transaction
+04_ss-user-1-item-2   _ss-user-1      _admin-user-1  _016.00

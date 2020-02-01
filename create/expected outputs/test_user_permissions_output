@@ -1,0 +1,12 @@
+Creating Account:
+Enter your desired username:
+Which privileges will this account have? 
+Existing privileges are: admin, full-standard, sell-standard, buy-standard
+User role specified as: admin
+How many credits will this user begin with?
+User successfully created!
+Enter the name of the user you wish to search for:
+User successfully located user account database.
+User's name is: username_5
+User's role is: admin
+

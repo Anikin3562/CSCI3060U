@@ -1,0 +1,5 @@
+Enter your username: 
+Welcome!
+Enter the name of the item you wish to auction:
+Enter the minimum bid for this item:
+ERROR: Minimum bid cannot exceed 999.99 credits!

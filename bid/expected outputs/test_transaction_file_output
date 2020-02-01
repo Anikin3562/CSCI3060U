@@ -1,0 +1,15 @@
+Enter your username: 
+Welcome!
+Enter the name of the item you wish to auction:
+Enter the minimum bid for this item:
+Enter the number of days this item will be auctioned for:
+Item successfully put up for auction!
+Enter your username: 
+Welcome!
+Enter the name of the user selling the item you wish to view the highest bid for:
+Enter the name of the item you wish to view the highest bid for:
+Highest bid is: 15.00
+Enter your bid: 
+Bid complete.
+Enter the name of the transaction you wish to find.
+This transaction has been written to the daily transaction file! 
