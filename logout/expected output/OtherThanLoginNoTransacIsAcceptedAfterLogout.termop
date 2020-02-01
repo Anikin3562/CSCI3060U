@@ -1,0 +1,10 @@
+Please enter your username:
+Login Successful, welcome MarrySue99
+Logout Successful, Goodbye.
+error: must be logged in to perform logout
+error: must be logged in to perform create
+error: must be logged in to perform delete
+error: must be logged in to perform advertise
+error: must be logged in to perform bid
+error: must be logged in to perform refund
+error: must be logged in to perform addcredit
