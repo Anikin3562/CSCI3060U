@@ -19,13 +19,29 @@ using namespace std;
 // These execute functions will utilize the previously declared functions in User, Admin, and Item.
 
 // Responsible for handling the login command. 
+User user = new Admin();
+
+
+
 void execute_login(){
 
 }
 
 // Responsible for handling the logout command.
 void execute_logout(){
+	//if the user isnt logged in
+	if (user.loggedIn == false) {
+		//out-> already logged out
+	}
 
+	//user is logged in
+	else {
+		//write transaction file
+		user.loggedIn == false;
+		//termop -> logged out successfully
+
+		//write daily transaction file
+	}
 }
 
 // Responsible for handling the advertise command.
@@ -45,6 +61,57 @@ void execute_addcredit(){
 
 // Responsible for handling the create command.
 void execute_create(){
+	if (user.loggedIn == false) {
+		//termop -> error: not logged in
+		return;
+	}
+	if (user.permissionType != 0) {
+		//termop -> error: non admin user
+		return;
+	}
+
+	string newUser;
+	int newType;
+	float newBalance;
+
+	//take username
+	while (true) {
+		//input -> newUser;
+		//username length must be 15 chars or less
+
+		//username selection
+		if (inputUser.length > 15 && inputUser.length == 0) {
+			//out invalid username
+			continue;
+		}
+		else if (inputUser.length <= 15) {
+			//find user account in user accounts file
+			//if not found, continue to start of loop
+		}
+		break;
+	}
+	//take usertype
+	while (true) {
+		//input -> userYype
+		if (newType < 0 && newType > 3) {
+			//out invalid type
+			continue;
+		}
+		break;
+	}
+
+
+	while (true) {
+		//input - > newBalance
+		if (newBalance < 0 && newBalance > 999999) {
+			//out invalid balance
+			continue;
+		}
+		break;
+		//add account to UAC
+		//record transaction
+	}
+
 
 }
 
