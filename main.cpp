@@ -5,10 +5,13 @@
 #include "user.cpp"
 #include "admin.cpp"
 #include "item.cpp"
-
+#include <fstream>
 
 using namespace std; 
 
+User user; 
+Admin admin;
+int activeUser; // 0 if user, 1 if admin. 
 // This is the main program. 
 // This where user interaction with the system occurs. 
 // The main method continuously reads input via the read_input()
@@ -18,27 +21,104 @@ using namespace std;
 
 // These execute functions will utilize the previously declared functions in User, Admin, and Item.
 
+void findUser(string username){
+
+	ifstream infile;
+	infile.open("accounts.txt");
+	string bufUsername; 
+	string bufUserType;
+	float bufUserCredit;
+
+
+	while(infile >> bufUsername){
+		
+		if(bufUsername == "END")
+			break; 
+
+		if(bufUsername == username){
+			infile >> bufUserType;
+			infile >> bufUserCredit;	
+			
+			{
+				int userType;
+
+				if(bufUserType == "AA"){ 
+					userType = 0;
+					activeUser = 1; 
+				} 
+				else{
+					activeUser = 0; 
+					
+					if(bufUserType == "FS") userType = 1;
+					if(bufUserType == "BS") userType = 2; 
+					if(bufUserType == "SS") userType = 3; 
+				}
+
+				User user1(bufUsername, true, userType, bufUserCredit);
+				user = user1;
+				
+			}
+		}
+		
+	}
+
+	infile.close();
+	
+}
+
 // Responsible for handling the login command. 
-User user = new Admin();
-
-
-
 void execute_login(){
+	string username; 
+	cout << "Enter your username: ";
+	cin >> username; 
 
+	//User user = findUser(username);
+	findUser(username);
+
+
+
+	if(user.username == "null"){
+		cout << "ERROR: Username not found. " << endl; 
+		return;
+	}
+
+	// Admin login
+	if(activeUser == 1){
+		admin.username = user.username; 
+		admin.loggedIn = true; 
+		admin.creditBalance = user.creditBalance; 	
+
+		cout << "Admin successfully logged in!" << endl; 
+	}
+
+	// Regular user login
+	else{
+		cout << "User successfully logged in!" << endl; 
+	}
+	
+	
+	// Write daily transaction
 }
 
 // Responsible for handling the logout command.
 void execute_logout(){
 	//if the user isnt logged in
 	if (user.loggedIn == false) {
-		//out-> already logged out
+		cout << "Already Logged Out. " << endl; 
+		return; 
 	}
 
 	//user is logged in
 	else {
 		//write transaction file
-		user.loggedIn == false;
-		//termop -> logged out successfully
+
+		User tempUser; 
+		user = tempUser;
+
+		Admin tempAdmin;  
+		admin = tempAdmin;
+
+		cout << "Logging out... " << endl; 
 
 		//write daily transaction file
 	}
@@ -46,6 +126,46 @@ void execute_logout(){
 
 // Responsible for handling the advertise command.
 void execute_advertise(){
+	string itemName; 
+	float minBid;
+	int daysRemaining;
+
+	cout << "Enter the name of the item you wish to advertise: ";
+	cin >> itemName; 
+
+	if(!(itemName.length() <= 25)){
+		cout << "ERROR: Item's name must not exceed 25 characters." << endl;
+		return; 
+	} 
+
+	cout << "Enter the minimum bid for the item: ";
+	cin >> minBid; 
+
+	if(minBid < 0){
+		cout << "ERROR: Minimum bid at least be $0." << endl;
+		return;  
+	}
+
+	if(minBid > 999.99){
+		cout << "ERROR: Item price cannot exceed $999.99." << endl; 
+		return; 
+	}
+
+	cout << "Enter the number of days the auction will run for: ";
+	cin >> daysRemaining;
+
+	if(daysRemaining < 1){
+		cout << "ERROR: Advertisement must run for at least a day!" << endl; 
+		return; 
+	}
+
+	if(daysRemaining > 100){
+		cout << "ERROR: Advertisement can run for at most 100 days!" << endl; 
+		return; 
+	}
+
+	// Write daily transction
+
 
 }
 
@@ -63,10 +183,12 @@ void execute_addcredit(){
 void execute_create(){
 	if (user.loggedIn == false) {
 		//termop -> error: not logged in
+		cout << "ERROR: User not logged in." << endl;
 		return;
 	}
 	if (user.permissionType != 0) {
 		//termop -> error: non admin user
+		cout << "ERROR: You must be an admin to perform this command. " << endl; 
 		return;
 	}
 
@@ -75,44 +197,54 @@ void execute_create(){
 	float newBalance;
 
 	//take username
-	while (true) {
+
 		//input -> newUser;
 		//username length must be 15 chars or less
-
+	cout << "Enter the username of the new user: ";
+	cin >> newUser; 
 		//username selection
-		if (inputUser.length > 15 && inputUser.length == 0) {
+
+	if (newUser.length() > 15 || newUser.length() == 0) {
 			//out invalid username
-			continue;
-		}
-		else if (inputUser.length <= 15) {
-			//find user account in user accounts file
-			//if not found, continue to start of loop
-		}
-		break;
+		cout << "ERROR: Username length not valid." << endl; 
+		return;
 	}
+
+
+	//find user account in user accounts file
+	//if not found, continue to start of loop
+	ifstream infile;
+	infile.open("accounts.txt");
+
+	string un; 
+
+	while(infile >> un){
+		
+		if(newUser == "END") break; 
+
+		if(newUser == un){
+			cout << "ERROR: That user already exists." << endl;
+			return;  
+		}
+	}
+
+	infile.close();
+
+
+
 	//take usertype
-	while (true) {
+	
 		//input -> userYype
-		if (newType < 0 && newType > 3) {
-			//out invalid type
-			continue;
-		}
-		break;
+	cout << "Enter the user's type: ";
+	cin >> newType;
+	if (newType < 0 || newType > 3) {
+		//out invalid type
+		cout << "Invalid Usertype." << endl;
+		return; 
 	}
 
 
-	while (true) {
-		//input - > newBalance
-		if (newBalance < 0 && newBalance > 999999) {
-			//out invalid balance
-			continue;
-		}
-		break;
-		//add account to UAC
-		//record transaction
-	}
-
-
+	// Write to daily transaction
 }
 
 // Responsible for handling the delete command.
