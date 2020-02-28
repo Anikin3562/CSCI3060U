@@ -7,7 +7,9 @@
 #include "item.cpp"
 #include <fstream>
 
-using namespace std; 
+using namespace std;
+
+#define USER_ACCTS_FILE "accounts.txt";
 
 User user; 
 Admin admin;
@@ -20,6 +22,7 @@ int activeUser; // 0 if user, 1 if admin.
 // execute functions. 
 
 // These execute functions will utilize the previously declared functions in User, Admin, and Item.
+
 
 void findUser(string username){
 
@@ -44,7 +47,8 @@ void findUser(string username){
 
 				if(bufUserType == "AA"){ 
 					userType = 0;
-					activeUser = 1; 
+					activeUser = 1;
+					admin = Admin(bufUsername, true, bufUserCredit);
 				} 
 				else{
 					activeUser = 0; 
@@ -52,10 +56,8 @@ void findUser(string username){
 					if(bufUserType == "FS") userType = 1;
 					if(bufUserType == "BS") userType = 2; 
 					if(bufUserType == "SS") userType = 3; 
+					user = User(bufUsername, true, userType, bufUserCredit);
 				}
-
-				User user1(bufUsername, true, userType, bufUserCredit);
-				user = user1;
 				
 			}
 		}
@@ -84,10 +86,6 @@ void execute_login(){
 
 	// Admin login
 	if(activeUser == 1){
-		admin.username = user.username; 
-		admin.loggedIn = true; 
-		admin.creditBalance = user.creditBalance; 	
-
 		cout << "Admin successfully logged in!" << endl; 
 	}
 
@@ -102,26 +100,15 @@ void execute_login(){
 
 // Responsible for handling the logout command.
 void execute_logout(){
-	//if the user isnt logged in
-	if (user.loggedIn == false) {
-		cout << "Already Logged Out. " << endl; 
-		return; 
+	//if no-one is logged in
+	if(!user.loggedIn && !admin.loggedIn){
+		cout << "Error: Not Logged In" << endl; 
+	} else {
+		user.loggedIn = false;
+		admin.loggedIn = false;
+		cout << "Logging out... " << endl;
 	}
-
-	//user is logged in
-	else {
-		//write transaction file
-
-		User tempUser; 
-		user = tempUser;
-
-		Admin tempAdmin;  
-		admin = tempAdmin;
-
-		cout << "Logging out... " << endl; 
-
-		//write daily transaction file
-	}
+	//write to daily transac file
 }
 
 // Responsible for handling the advertise command.
