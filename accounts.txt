@@ -1,2 +1,3 @@
-adminuser1      AA 110      
+adminuser1      AA 110 
+adminuser2      AA 100     
 END

@@ -171,12 +171,191 @@ void execute_advertise(){
 
 // Responsible for handling the bid command.
 void execute_bid(){
+	string itemName; 
+	string sellerName; 
+	float userBid; 
+
+	ifstream items; 
+	items.open("items.txt");
+
+	cout << "Enter the seller's username: ";
+	cin >> sellerName; 
+
+	// Check that seller exists.
+	string un;
+	string in; 
+	string highestBidder;
+	int daysLeft; 
+	float highestBid; 
+
+	bool sellerExists; 
+	bool itemExists;
+
+	cout << "Enter the name of the item you wish to bid on: ";
+	cin >> itemName;
+	
+	// Check that item exists. 
+	// Read item into item instantiation.
+
+	while(items >> in){
+
+		if(in == "END") break; 
+
+		items >> un; 
+		items >> highestBidder; 
+		items >> daysLeft;
+		items >> highestBid;
+
+		if((in == itemName) && (un == sellerName)){
+			itemExists = true;
+			sellerExists = true; 
+			break;
+		}
+
+		// Ensures that item comes from specified user. 
+		itemExists = false; 
+		sellerExists = false; 
+
+	} 
+
+	if(!sellerExists){
+		cout << "ERROR: Seller does not exist!" << endl; 
+		items.close();
+		return; 
+	}
+
+	if(!itemExists){
+		cout << "ERROR: Item does not exist!" << endl; 
+		items.close();
+		return; 
+	}
+
+	Item item(itemName, daysLeft, highestBid, highestBidder);
+	items.close();
+
+	cout << item.currentBid << endl; 
+
+	cout << "Enter your bid: ";
+	cin >> userBid; 
+
+	if(userBid <= highestBid){
+		cout << "ERROR: Your bid must be higher than the previous bid!" << endl;
+		return; 
+	}
+
+	if(userBid > 999.99){
+		cout << "ERROR: Maximum bid is $999.99." << endl;
+		return; 
+	}
+
+	item.currentBid = userBid; 
+
+	if(activeUser == 0){
+		item.currentBidder = user.username;
+	}
+
+	else{
+		item.currentBidder = admin.username; 
+	}
+
+	//cout << item.currentBidder << ": " << item.currentBid << endl; 
+
+	// Write to daily transaction file. 
+
 
 }
 
 // Responsible for handling the addcredit command.
 void execute_addcredit(){
 	
+	if(activeUser == 0){
+		float credit; 
+		cout << "Enter the amount of credit you wish to add: ";
+		cin >> credit; 
+
+		if(credit > 1000){
+			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl; 
+			return;
+		}
+
+		if(credit <= 0){
+			cout << "ERROR: Invalid credit amount." << endl; 
+			return; 
+		}
+
+		user.creditBalance += credit; 
+		return; 
+	}
+
+	else{ 
+
+		float credit; 
+		string username;
+
+		cout << "Enter the name of the user you wish to add credit to: ";
+		cin >> username; 
+
+		ifstream accounts; 
+		accounts.open("accounts.txt");
+
+		string un; 
+		string accountType; 
+		float accountBalance; 
+
+		bool userExists; 
+
+		while(accounts >> un){
+
+			if(un == "END") break; 
+
+			accounts >> accountType; 
+			accounts >> accountBalance; 
+
+			
+			if(un == username){
+				userExists = true; 
+				break; 
+			}
+
+		}
+
+		if(!userExists){
+			cout << "ERROR: User does not exist!" << endl; 
+			return; 
+		}
+
+		int accType;
+
+		if(accountType == "AA") accType = 0;
+		if(accountType == "FS") accType = 1; 
+		if(accountType == "BS") accType = 2; 
+		if(accountType == "SS") accType = 3; 
+
+		User temp(un, false, accType, accountBalance);
+
+		cout << "Enter the amount of credit you wish to add: ";
+		cin >> credit; 
+
+		if(credit > 1000){
+			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl; 
+			return;
+		}
+
+		if(credit <= 0){
+			cout << "ERROR: Invalid credit amount." << endl; 
+			return; 
+		}
+
+		if(temp.creditBalance > 999999.99){
+			cout << "ERROR: Adding this credit would make user exceed maximum credit limit!" << endl; 
+			return; 
+		}
+
+		temp.creditBalance += credit; 
+		//cout << temp.creditBalance << endl;
+		
+		// Write to daily transcation
+	}
 }
 
 // Responsible for handling the create command.
@@ -220,7 +399,7 @@ void execute_create(){
 
 	while(infile >> un){
 		
-		if(newUser == "END") break; 
+		if(un == "END") break; 
 
 		if(newUser == un){
 			cout << "ERROR: That user already exists." << endl;
@@ -234,7 +413,7 @@ void execute_create(){
 
 	//take usertype
 	
-		//input -> userYype
+	//input -> userType
 	cout << "Enter the user's type: ";
 	cin >> newType;
 	if (newType < 0 || newType > 3) {
@@ -254,6 +433,88 @@ void execute_delete(){
 
 // Responsible for handling the refund command.
 void execute_refund(){
+
+	string buyerName;
+	string sellerName; 
+	float credit;
+
+	cout << "Enter the buyer's username: "; 
+	cin >> buyerName; 
+
+	cout << "Enter the seller's username: ";
+	cin >> sellerName; 
+
+	// Check existence
+	ifstream infile; 
+	
+	string un; 
+	bool sellerExists; 
+	bool buyerExists; 
+
+	float sellerCredit;
+	float buyerCredit; 
+	string tempBuffer; 
+
+	infile.open("accounts.txt");
+
+	while(infile >> un){
+
+		if(un == "END") break; 
+
+		if(un == sellerName){
+			sellerExists = true;
+			infile >> tempBuffer; 
+			infile >> sellerCredit;
+		}  
+
+		if(un == buyerName){
+			buyerExists = true;
+			infile >> tempBuffer; 
+			infile >> buyerCredit; 
+			
+		}  
+
+	}
+
+	if(!sellerExists){
+		cout << "ERROR: Seller does not exist!" << endl; 
+		infile.close();
+		return; 
+	}
+
+	if(!buyerExists){
+		cout << "ERROR: Buyer does not exist!" << endl; 
+		infile.close();
+		return; 
+	}
+
+	cout << buyerCredit << " " << sellerCredit << endl; 
+	// Check existence
+
+	cout << "Enter the amount of credit you wish to refund: ";
+	cin >> credit;
+
+	if(sellerCredit < credit){
+		cout << "ERROR: Seller does not have enough credits to transfer!" << endl; 
+		return; 
+	}
+
+	if((buyerCredit + credit) > 999999.99){
+		cout << "ERROR: Buyer's credit would exceed the maximum allowed credits!" << endl;
+		return; 
+	}
+
+	buyerCredit += credit; 
+	sellerCredit -= credit; 
+
+	// Write to daily transaction file.
+
+
+
+	// Check seller has that much credit to refund.
+	// Check buyer has space for the credit. 
+	infile.close();
+
 
 }
 
