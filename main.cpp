@@ -8,10 +8,8 @@
 #include <fstream>
 
 using namespace std; 
-
-User user; 
-Admin admin;
-int activeUser; // 0 if user, 1 if admin. 
+User* user = NULL; 
+Admin* admin = NULL;
 // This is the main program. 
 // This where user interaction with the system occurs. 
 // The main method continuously reads input via the read_input()
@@ -19,109 +17,69 @@ int activeUser; // 0 if user, 1 if admin.
 // then (given that the user has proper permissions) these functions will be executed by the
 // execute functions. 
 
+
+template <class T=User*>
+T activeUser() {
+	if (user != NULL)
+		return user;
+	else if (admin != NULL)
+		return admin;
+	else
+		return NULL;
+}
+
 // These execute functions will utilize the previously declared functions in User, Admin, and Item.
 
-void findUser(string username){
-
-	ifstream infile;
-	infile.open("accounts.txt");
-	string bufUsername; 
-	string bufUserType;
-	float bufUserCredit;
-
-
-	while(infile >> bufUsername){
-		
-		if(bufUsername == "END")
-			break; 
-
-		if(bufUsername == username){
-			infile >> bufUserType;
-			infile >> bufUserCredit;	
-			
-			{
-				int userType;
-
-				if(bufUserType == "AA"){ 
-					userType = 0;
-					activeUser = 1; 
-				} 
-				else{
-					activeUser = 0; 
-					
-					if(bufUserType == "FS") userType = 1;
-					if(bufUserType == "BS") userType = 2; 
-					if(bufUserType == "SS") userType = 3; 
-				}
-
-				User user1(bufUsername, true, userType, bufUserCredit);
-				user = user1;
-				
-			}
-		}
-		
-	}
-
-	infile.close();
-	
-}
 
 // Responsible for handling the login command. 
 void execute_login(){
-	string username; 
-	cout << "Enter your username: ";
-	cin >> username; 
+	cout << "enter username: ";
+	string username;
+	cin >> username;
 
-	//User user = findUser(username);
-	findUser(username);
+	ifstream infile;
+	infile.open("accounts.txt");
+	string bufUsername;
+	string bufUserType;
+	float bufUserCredit;
 
+	while (infile >> bufUsername) {
+		if (bufUsername == "END") {		//reached end of file, username didnt match.
+			cout << "Specified username not found" << endl;
+			return;
+		}
+		if (bufUsername == username) {	//found username match in account file
+			infile >> bufUserType;
+			infile >> bufUserCredit;
 
+			int userType;
+			if (bufUserType == "AA") userType = 0;
+			if (bufUserType == "FS") userType = 1;
+			if (bufUserType == "BS") userType = 2;
+			if (bufUserType == "SS") userType = 3;
 
-	if(user.username == "null"){
-		cout << "ERROR: Username not found. " << endl; 
-		return;
+			if (userType != 0) {
+				user = new User(bufUsername, userType, bufUserCredit);
+				cout << "user logged in" <<endl;
+			}
+			else {
+				admin = new Admin(bufUsername, bufUserCredit);
+				cout << "admin logged in" <<endl;
+			}
+			return;
+		}
+
 	}
-
-	// Admin login
-	if(activeUser == 1){
-		admin.username = user.username; 
-		admin.loggedIn = true; 
-		admin.creditBalance = user.creditBalance; 	
-
-		cout << "Admin successfully logged in!" << endl; 
-	}
-
-	// Regular user login
-	else{
-		cout << "User successfully logged in!" << endl; 
-	}
-	
-	
-	// Write daily transaction
+	infile.close();
 }
 
 // Responsible for handling the logout command.
 void execute_logout(){
-	//if the user isnt logged in
-	if (user.loggedIn == false) {
-		cout << "Already Logged Out. " << endl; 
-		return; 
-	}
-
-	//user is logged in
-	else {
-		//write transaction file
-
-		User tempUser; 
-		user = tempUser;
-
-		Admin tempAdmin;  
-		admin = tempAdmin;
-
-		cout << "Logging out... " << endl; 
-
-		//write daily transaction file
-	}
+	//write transaction file 
+	activeUser()->logout();		//will log transaction files
+	free( activeUser() );			//free memory
+	//activeUser() = NULL;		//simulates 'not being logged on
+	cout << "successfully logged out" << endl;
 }
 
 // Responsible for handling the advertise command.
@@ -142,12 +100,12 @@ void execute_advertise(){
 	cin >> minBid; 
 
 	if(minBid < 0){
-		cout << "ERROR: Minimum bid at least be $0." << endl;
+		cout << "ERROR: starting bid must surpass $0.00" << endl;
 		return;  
 	}
 
 	if(minBid > 999.99){
-		cout << "ERROR: Item price cannot exceed $999.99." << endl; 
+		cout << "ERROR: starting bid cannot exceed $999.99." << endl; 
 		return; 
 	}
 
@@ -164,397 +122,409 @@ void execute_advertise(){
 		return; 
 	}
 
-	// Write daily transction
-
-
+	activeUser()->advertise(itemName, activeUser()->username, minBid, daysRemaining);
 }
 
 // Responsible for handling the bid command.
 void execute_bid(){
-	string itemName; 
-	string sellerName; 
-	float userBid; 
+	string itemName;
+	string sellerName;
+	float userBid;
 
-	ifstream items; 
+	ifstream items;
 	items.open("items.txt");
 
 	cout << "Enter the seller's username: ";
-	cin >> sellerName; 
+	cin >> sellerName;
+
 
 	// Check that seller exists.
 	string un;
-	string in; 
+	string in;
 	string highestBidder;
-	int daysLeft; 
-	float highestBid; 
+	int daysLeft;
+	float highestBid;
 
-	bool sellerExists; 
+	bool sellerExists;
 	bool itemExists;
 
 	cout << "Enter the name of the item you wish to bid on: ";
 	cin >> itemName;
-	
+
 	// Check that item exists. 
 	// Read item into item instantiation.
 
-	while(items >> in){
+	while (items >> in) {
 
-		if(in == "END") break; 
+		if (in == "END") break;
 
-		items >> un; 
-		items >> highestBidder; 
+		items >> un;
+		items >> highestBidder;
 		items >> daysLeft;
 		items >> highestBid;
 
-		if((in == itemName) && (un == sellerName)){
+		if ((in == itemName) && (un == sellerName)) {
 			itemExists = true;
-			sellerExists = true; 
+			sellerExists = true;
 			break;
 		}
 
 		// Ensures that item comes from specified user. 
-		itemExists = false; 
-		sellerExists = false; 
+		itemExists = false;
+		sellerExists = false;
 
-	} 
-
-	if(!sellerExists){
-		cout << "ERROR: Seller does not exist!" << endl; 
-		items.close();
-		return; 
 	}
 
-	if(!itemExists){
-		cout << "ERROR: Item does not exist!" << endl; 
+	if (!sellerExists) {
+		cout << "ERROR: Seller does not exist!" << endl;
 		items.close();
-		return; 
+		return;
+	}
+
+	if (!itemExists) {
+		cout << "ERROR: Item does not exist!" << endl;
+		items.close();
+		return;
 	}
 
 	Item item(itemName, daysLeft, highestBid, highestBidder);
 	items.close();
 
-	cout << item.currentBid << endl; 
+	cout << item.currentBid << endl;
 
 	cout << "Enter your bid: ";
-	cin >> userBid; 
+	cin >> userBid;
 
-	if(userBid <= highestBid){
+	if (userBid <= highestBid) {
 		cout << "ERROR: Your bid must be higher than the previous bid!" << endl;
-		return; 
+		return;
 	}
 
-	if(userBid > 999.99){
+	if (userBid > 999.99) {
 		cout << "ERROR: Maximum bid is $999.99." << endl;
-		return; 
+		return;
 	}
 
-	item.currentBid = userBid; 
-
-	if(activeUser == 0){
-		item.currentBidder = user.username;
-	}
-
-	else{
-		item.currentBidder = admin.username; 
-	}
+	item.currentBid = userBid;
+	item.currentBidder = user->username;
 
 	//cout << item.currentBidder << ": " << item.currentBid << endl; 
 
-	// Write to daily transaction file. 
-
-
+	activeUser()-> bid(itemName, sellerName, user->username , userBid);
 }
 
 // Responsible for handling the addcredit command.
 void execute_addcredit(){
-	
-	if(activeUser == 0){
-		float credit; 
-		cout << "Enter the amount of credit you wish to add: ";
-		cin >> credit; 
 
-		if(credit > 1000){
-			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl; 
+	if (activeUser() != admin) {
+		float credit;
+		cout << "Enter the amount of credit you wish to add: ";
+		cin >> credit;
+
+		if (credit > 1000) {
+			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl;
 			return;
 		}
 
-		if(credit <= 0){
-			cout << "ERROR: Invalid credit amount." << endl; 
-			return; 
+
+		if (credit <= 0) {
+			cout << "ERROR: Invalid credit amount." << endl;
+			return;
 		}
 
-		user.creditBalance += credit; 
-		return; 
+		user->creditBalance += credit;
+		return;
 	}
 
-	else{ 
-
-		float credit; 
+	else {
+		float credit;
 		string username;
 
 		cout << "Enter the name of the user you wish to add credit to: ";
-		cin >> username; 
+		cin >> username;
 
-		ifstream accounts; 
+		ifstream accounts;
 		accounts.open("accounts.txt");
 
-		string un; 
-		string accountType; 
-		float accountBalance; 
+		string un;
+		string accountType;
+		float accountBalance;
 
-		bool userExists; 
-
-		while(accounts >> un){
-
-			if(un == "END") break; 
-
-			accounts >> accountType; 
-			accounts >> accountBalance; 
-
-			
-			if(un == username){
-				userExists = true; 
-				break; 
+		while (accounts >> un) {
+			if (un == "END") {
+				cout << "ERROR: User does not exist!" << endl;
+				return;
 			}
-
-		}
-
-		if(!userExists){
-			cout << "ERROR: User does not exist!" << endl; 
-			return; 
+			accounts >> accountType;
+			accounts >> accountBalance;
+			if (un == username) {
+				break;
+			}
 		}
 
 		int accType;
-
-		if(accountType == "AA") accType = 0;
-		if(accountType == "FS") accType = 1; 
-		if(accountType == "BS") accType = 2; 
-		if(accountType == "SS") accType = 3; 
-
-		User temp(un, false, accType, accountBalance);
+		if (accountType == "AA") accType = 0;
+		if (accountType == "FS") accType = 1;
+		if (accountType == "BS") accType = 2;
+		if (accountType == "SS") accType = 3;
 
 		cout << "Enter the amount of credit you wish to add: ";
-		cin >> credit; 
+		cin >> credit;
 
-		if(credit > 1000){
-			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl; 
+		if (credit > 1000) {
+			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl;
 			return;
 		}
 
-		if(credit <= 0){
-			cout << "ERROR: Invalid credit amount." << endl; 
-			return; 
+		if (credit <= 0) {
+			cout << "ERROR: Invalid credit amount." << endl;
+			return;
 		}
 
-		if(temp.creditBalance > 999999.99){
-			cout << "ERROR: Adding this credit would make user exceed maximum credit limit!" << endl; 
-			return; 
+		if (accountBalance+credit > 999999.99) {
+			cout << "ERROR: Adding this credit would make user exceed maximum credit limit!" << endl;
+			return;
 		}
 
-		temp.creditBalance += credit; 
+		accountBalance += credit;
 		//cout << temp.creditBalance << endl;
-		
-		// Write to daily transcation
 	}
 }
 
 // Responsible for handling the create command.
 void execute_create(){
-	if (user.loggedIn == false) {
-		//termop -> error: not logged in
-		cout << "ERROR: User not logged in." << endl;
-		return;
-	}
-	if (user.permissionType != 0) {
-		//termop -> error: non admin user
-		cout << "ERROR: You must be an admin to perform this command. " << endl; 
-		return;
-	}
-
 	string newUser;
 	int newType;
 	float newBalance;
 
 	//take username
-
-		//input -> newUser;
-		//username length must be 15 chars or less
 	cout << "Enter the username of the new user: ";
 	cin >> newUser; 
-		//username selection
-
-	if (newUser.length() > 15 || newUser.length() == 0) {
-			//out invalid username
+	if (newUser.length() > 15 || newUser.length() == 0) {	
 		cout << "ERROR: Username length not valid." << endl; 
 		return;
 	}
 
-
 	//find user account in user accounts file
-	//if not found, continue to start of loop
 	ifstream infile;
 	infile.open("accounts.txt");
 
 	string un; 
-
 	while(infile >> un){
-		
 		if(un == "END") break; 
 
 		if(newUser == un){
 			cout << "ERROR: That user already exists." << endl;
+			infile.close();
 			return;  
 		}
 	}
-
 	infile.close();
 
-
-
 	//take usertype
-	
-	//input -> userType
-	cout << "Enter the user's type: ";
+	cout << "Enter the new user's type \n 0 -> admin, 1-> full standard, 2-> buy standard, 3-> sell standard): ";
+
 	cin >> newType;
-	if (newType < 0 || newType > 3) {
-		//out invalid type
-		cout << "Invalid Usertype." << endl;
-		return; 
+	if (newType < 0 || newType>3) {
+		cout << "ERROR: Invalid Usertype." << endl;
+		return;
 	}
 
-
-	// Write to daily transaction
+	//takes initial creditbalance
+	cout << "Enter the new user's initial credit balance: ";
+	cin >> newBalance;
+	if (newBalance < 0 || newBalance>999999) {
+		cout << "ERROR: balance out of accepted range"<<endl;
+		return;
+	}
+	if (activeUser()==admin)
+		admin->create(newUser,newType,newBalance); //ADMIN PERMISSION ISSUES
 }
 
 // Responsible for handling the delete command.
 void execute_delete(){
+	cout << "Enter username of account to delete: ";
 
+	//take username
+	string targetUser;
+	cin >> targetUser;
+	if (targetUser.length() > 15 || targetUser.length() == 0) {		//
+		cout << "ERROR: Username length not valid." << endl;
+		return;
+	}
+
+	//find user account in user accounts file
+	ifstream infile;
+	infile.open("accounts.txt");
+
+	string un;
+	while (infile >> un) {
+		if (un == "END") {
+			cout << "ERROR: User doesn't exist" << endl;
+			infile.close();
+			return;
+		}
+		if (targetUser == un) {
+			break;
+		}
+	}
+	infile.close();
+	if (targetUser == user->username) {
+		cout << "ERROR: Cannot delete self" << endl;
+		return;
+	}
+	if (activeUser() == admin)
+		admin->deleteUser(targetUser); //ADMIN PERMISSION ISSUES
 }
 
 // Responsible for handling the refund command.
 void execute_refund(){
-
 	string buyerName;
-	string sellerName; 
+	string sellerName;
 	float credit;
 
-	cout << "Enter the buyer's username: "; 
-	cin >> buyerName; 
+	cout << "Enter the buyer's username: ";
+	cin >> buyerName;
 
 	cout << "Enter the seller's username: ";
-	cin >> sellerName; 
+	cin >> sellerName;
 
 	// Check existence
-	ifstream infile; 
-	
-	string un; 
-	bool sellerExists; 
-	bool buyerExists; 
+	ifstream infile;
+
+	string un;
+	bool sellerExists;
+	bool buyerExists;
 
 	float sellerCredit;
-	float buyerCredit; 
-	string tempBuffer; 
+	float buyerCredit;
+	string tempBuffer;
 
 	infile.open("accounts.txt");
 
-	while(infile >> un){
+	while (infile >> un) {
 
-		if(un == "END") break; 
+		if (un == "END") break;
 
-		if(un == sellerName){
+		if (un == sellerName) {
 			sellerExists = true;
-			infile >> tempBuffer; 
+			infile >> tempBuffer;
 			infile >> sellerCredit;
-		}  
+		}
 
-		if(un == buyerName){
+		if (un == buyerName) {
 			buyerExists = true;
-			infile >> tempBuffer; 
-			infile >> buyerCredit; 
-			
-		}  
+			infile >> tempBuffer;
+			infile >> buyerCredit;
 
+		}
 	}
 
-	if(!sellerExists){
-		cout << "ERROR: Seller does not exist!" << endl; 
+	if (!sellerExists) {
+		cout << "ERROR: Seller does not exist!" << endl;
 		infile.close();
-		return; 
+		return;
 	}
 
-	if(!buyerExists){
-		cout << "ERROR: Buyer does not exist!" << endl; 
+	if (!buyerExists) {
+		cout << "ERROR: Buyer does not exist!" << endl;
 		infile.close();
-		return; 
+		return;
 	}
 
-	cout << buyerCredit << " " << sellerCredit << endl; 
+	cout << buyerCredit << " " << sellerCredit << endl;
 	// Check existence
 
 	cout << "Enter the amount of credit you wish to refund: ";
 	cin >> credit;
 
-	if(sellerCredit < credit){
-		cout << "ERROR: Seller does not have enough credits to transfer!" << endl; 
-		return; 
+	if (sellerCredit < credit) {
+		cout << "ERROR: Seller does not have enough credits to transfer!" << endl;
+		return;
 	}
 
-	if((buyerCredit + credit) > 999999.99){
+	if ((buyerCredit + credit) > 999999.99) {
 		cout << "ERROR: Buyer's credit would exceed the maximum allowed credits!" << endl;
-		return; 
+		return;
 	}
 
-	buyerCredit += credit; 
-	sellerCredit -= credit; 
+	buyerCredit += credit;
+	sellerCredit -= credit;
 
 	// Write to daily transaction file.
-
-
-
-	// Check seller has that much credit to refund.
-	// Check buyer has space for the credit. 
 	infile.close();
-
-
+	if (activeUser() == admin)
+		admin->refund(buyerName, sellerName, credit); //ADMIN PERMISSION ISSUES
+	//user->refund(buyerName, sellerName, credit);
 }
 
 // Read user input into userInput, detect and execute command accordingly. 
 void read_input(){
 
 	string userInput; 
-
+	if (activeUser() != NULL)
+		cout << "(" << activeUser()->username << ") ";
+	cout << "enter transaction: ";
 	cin >> userInput;
 
-	if(userInput == "login"){
-		execute_login();
+	//transactions allowed while not logged in
+	if (activeUser()==NULL) {
+		if (userInput == "login") 
+			execute_login();
+		else 
+			cout << "ERROR: transaction not available" << endl;
+		return;
 	}
+	
+	//transactions allowed on login
+	else if (activeUser() != NULL) {
+		if (userInput == "login") {
+			cout << "ERROR: already logged in" << endl;
+			return;
+		}
 
-	else if(userInput == "logout"){
-		execute_logout();
-	}
+		else if (userInput == "logout") {
+			execute_logout();
+			return;
+		}
 
-	else if(userInput == "advertise"){
-		execute_advertise();
-	}
+		else if (userInput == "advertise") {
+			execute_advertise();
+			return;
+		}
 
-	else if(userInput == "bid"){
-		execute_bid();
-	}
+		else if (userInput == "bid") {
+			execute_bid();
+			return;
+		}
 
-	else if(userInput == "addcredit"){
-		execute_addcredit(); 
-	}
+		else if (userInput == "addcredit") {
+			execute_addcredit();
+			return;
+		}
 
-	else if(userInput == "create"){
-		execute_create(); 
-	}
-
-	else if(userInput == "delete"){
-		execute_delete();
-	}
-
-	else if(userInput == "refund"){
-		execute_refund();
+		if (activeUser() == admin) {	//admin
+			if (userInput == "create") {
+				execute_create();
+				return;
+			}
+			if (userInput == "delete") {
+				execute_delete();
+				return;
+			}
+			if (userInput == "refund") {
+				execute_refund();
+				return;
+			}
+		}
+		else if (activeUser() != admin){
+			cout << "ERROR: You must be an admin to perform this transaction" << endl;
+			return;
+		}
+		else {
+			cout << "ERROR: transaction does not exist" << endl;
+			return;
+		}
 	}
 
 	else if(userInput == "exit"){

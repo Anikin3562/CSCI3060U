@@ -1,3 +1,4 @@
-adminuser1      AA 110 
+adminuser1      AA 110      
+joe             FS 999   
 adminuser2      AA 100     
 END
