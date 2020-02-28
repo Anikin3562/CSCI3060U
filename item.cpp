@@ -14,7 +14,7 @@ using namespace std;
 class Item {
 public:
 
-	string name;
+	string name;  
 
 	int daysLeft; 	// Days left on the auction. 
 	float currentBid;	// The current-highest bid on the item.
@@ -28,8 +28,6 @@ public:
 		name = "null";
 		daysLeft = -1;
 		currentBid = -1;
-
-
 	}
 
 	Item(string n, int dl, float cB, string cBr) {

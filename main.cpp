@@ -137,6 +137,7 @@ void execute_bid(){
 	cout << "Enter the seller's username: ";
 	cin >> sellerName;
 
+
 	// Check that seller exists.
 	string un;
 	string in;
@@ -214,6 +215,7 @@ void execute_bid(){
 
 // Responsible for handling the addcredit command.
 void execute_addcredit(){
+
 	if (activeUser() != admin) {
 		float credit;
 		cout << "Enter the amount of credit you wish to add: ";
@@ -223,6 +225,7 @@ void execute_addcredit(){
 			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl;
 			return;
 		}
+
 
 		if (credit <= 0) {
 			cout << "ERROR: Invalid credit amount." << endl;
@@ -309,6 +312,7 @@ void execute_create(){
 	string un; 
 	while(infile >> un){
 		if(un == "END") break; 
+
 		if(newUser == un){
 			cout << "ERROR: That user already exists." << endl;
 			infile.close();
@@ -319,6 +323,7 @@ void execute_create(){
 
 	//take usertype
 	cout << "Enter the new user's type \n 0 -> admin, 1-> full standard, 2-> buy standard, 3-> sell standard): ";
+
 	cin >> newType;
 	if (newType < 0 || newType>3) {
 		cout << "ERROR: Invalid Usertype." << endl;
