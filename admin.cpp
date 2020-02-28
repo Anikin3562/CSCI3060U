@@ -16,25 +16,26 @@ public:
 		permissionType = 0;
 	}
 
-	Admin(string un, bool lI, float cB ){
+	Admin(string un, float cB ){
 		username = un; 
-		loggedIn = lI;
 		creditBalance = cB;
 		permissionType = 0; 
 	}
 
 	// Functions
-	int create(string username, int permissions, float credits); 
+	int create(); 
 	int refund(string sellerUsername, string buyerUsername, float amount); 
 	int deleteUser(string username);
 
 	// Overloaded Function
 	int addCredit(float credit);
 
+
 };
 
 // Only admins can create other Users.
-int Admin::create(string username, int permissions, float credits){
+int Admin::create(){
+	cout << "TEST" << endl;
 	return 0; 
 }
 
