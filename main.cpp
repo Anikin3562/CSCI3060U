@@ -8,15 +8,25 @@
 #include <fstream>
 
 using namespace std; 
-
 User* user = NULL; 
-
+Admin* admin = NULL;
 // This is the main program. 
 // This where user interaction with the system occurs. 
 // The main method continuously reads input via the read_input()
 // function. This function will detect command keywords (such as login, logout, auction, etc.) and
 // then (given that the user has proper permissions) these functions will be executed by the
 // execute functions. 
+
+
+template <class T=User*>
+T activeUser() {
+	if (user != NULL)
+		return user;
+	else if (admin != NULL)
+		return admin;
+	else
+		return NULL;
+}
 
 // These execute functions will utilize the previously declared functions in User, Admin, and Item.
 
@@ -53,7 +63,7 @@ void execute_login(){
 				cout << "user logged in" <<endl;
 			}
 			else {
-				user = new Admin(bufUsername, bufUserCredit);
+				admin = new Admin(bufUsername, bufUserCredit);
 				cout << "admin logged in" <<endl;
 			}
 			return;
@@ -66,9 +76,9 @@ void execute_login(){
 // Responsible for handling the logout command.
 void execute_logout(){
 	//write transaction file 
-	user->logout();		//will log transaction files
-	free(user);			//free memory
-	user = NULL;		//simulates 'not being logged on
+	activeUser()->logout();		//will log transaction files
+	free( activeUser() );			//free memory
+	//activeUser() = NULL;		//simulates 'not being logged on
 	cout << "successfully logged out" << endl;
 }
 
@@ -112,7 +122,7 @@ void execute_advertise(){
 		return; 
 	}
 
-	user->advertise(itemName, user->username, minBid, daysRemaining);
+	activeUser()->advertise(itemName, activeUser()->username, minBid, daysRemaining);
 }
 
 // Responsible for handling the bid command.
@@ -199,18 +209,89 @@ void execute_bid(){
 
 	//cout << item.currentBidder << ": " << item.currentBid << endl; 
 
-	user->bid(itemName, sellerName, user->username , userBid);
+	activeUser()-> bid(itemName, sellerName, user->username , userBid);
 }
 
 // Responsible for handling the addcredit command.
 void execute_addcredit(){
-	
+	if (activeUser() != admin) {
+		float credit;
+		cout << "Enter the amount of credit you wish to add: ";
+		cin >> credit;
+
+		if (credit > 1000) {
+			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl;
+			return;
+		}
+
+		if (credit <= 0) {
+			cout << "ERROR: Invalid credit amount." << endl;
+			return;
+		}
+
+		user->creditBalance += credit;
+		return;
+	}
+
+	else {
+		float credit;
+		string username;
+
+		cout << "Enter the name of the user you wish to add credit to: ";
+		cin >> username;
+
+		ifstream accounts;
+		accounts.open("accounts.txt");
+
+		string un;
+		string accountType;
+		float accountBalance;
+
+		while (accounts >> un) {
+			if (un == "END") {
+				cout << "ERROR: User does not exist!" << endl;
+				return;
+			}
+			accounts >> accountType;
+			accounts >> accountBalance;
+			if (un == username) {
+				break;
+			}
+		}
+
+		int accType;
+		if (accountType == "AA") accType = 0;
+		if (accountType == "FS") accType = 1;
+		if (accountType == "BS") accType = 2;
+		if (accountType == "SS") accType = 3;
+
+		cout << "Enter the amount of credit you wish to add: ";
+		cin >> credit;
+
+		if (credit > 1000) {
+			cout << "ERROR: Maximum amount of credit that can be added is $1000" << endl;
+			return;
+		}
+
+		if (credit <= 0) {
+			cout << "ERROR: Invalid credit amount." << endl;
+			return;
+		}
+
+		if (accountBalance+credit > 999999.99) {
+			cout << "ERROR: Adding this credit would make user exceed maximum credit limit!" << endl;
+			return;
+		}
+
+		accountBalance += credit;
+		//cout << temp.creditBalance << endl;
+	}
 }
 
 // Responsible for handling the create command.
 void execute_create(){
 	string newUser;
-	string newType;
+	int newType;
 	float newBalance;
 
 	//take username
@@ -237,20 +318,10 @@ void execute_create(){
 	infile.close();
 
 	//take usertype
-	cout << "Enter the new user's type (admin, full standard, buy standard, sell standard): ";
+	cout << "Enter the new user's type \n 0 -> admin, 1-> full standard, 2-> buy standard, 3-> sell standard): ";
 	cin >> newType;
-
-	int permVal;
-	if (newType == "admin") 
-		permVal = 0;
-	if (newType == "full standard")
-		permVal = 1;
-	if (newType == "buy standard")
-		permVal = 2;
-	if (newType == "sell standard")
-		permVal = 3;
-	else {
-		cout << "Invalid Usertype." << endl;
+	if (newType < 0 || newType>3) {
+		cout << "ERROR: Invalid Usertype." << endl;
 		return;
 	}
 
@@ -261,8 +332,8 @@ void execute_create(){
 		cout << "ERROR: balance out of accepted range"<<endl;
 		return;
 	}
-	
-	// user->create(); //ADMIN PERMISSION ISSUES
+	if (activeUser()==admin)
+		admin->create(newUser,newType,newBalance); //ADMIN PERMISSION ISSUES
 }
 
 // Responsible for handling the delete command.
@@ -297,7 +368,8 @@ void execute_delete(){
 		cout << "ERROR: Cannot delete self" << endl;
 		return;
 	}
-	//user->deleteUser(user->username, targetUser, user->permissionType, user->creditBalance);//doc storage ???
+	if (activeUser() == admin)
+		admin->deleteUser(targetUser); //ADMIN PERMISSION ISSUES
 }
 
 // Responsible for handling the refund command.
@@ -376,6 +448,8 @@ void execute_refund(){
 
 	// Write to daily transaction file.
 	infile.close();
+	if (activeUser() == admin)
+		admin->refund(buyerName, sellerName, credit); //ADMIN PERMISSION ISSUES
 	//user->refund(buyerName, sellerName, credit);
 }
 
@@ -383,13 +457,13 @@ void execute_refund(){
 void read_input(){
 
 	string userInput; 
-	if (user != NULL)
-		cout << "(" << user->username << ") ";
+	if (activeUser() != NULL)
+		cout << "(" << activeUser()->username << ") ";
 	cout << "enter transaction: ";
 	cin >> userInput;
 
 	//transactions allowed while not logged in
-	if (user==NULL) {
+	if (activeUser()==NULL) {
 		if (userInput == "login") 
 			execute_login();
 		else 
@@ -398,7 +472,7 @@ void read_input(){
 	}
 	
 	//transactions allowed on login
-	else if (user != NULL) {
+	else if (activeUser() != NULL) {
 		if (userInput == "login") {
 			cout << "ERROR: already logged in" << endl;
 			return;
@@ -424,7 +498,7 @@ void read_input(){
 			return;
 		}
 
-		if (user->permissionType = 0) {	//admin
+		if (activeUser() == admin) {	//admin
 			if (userInput == "create") {
 				execute_create();
 				return;
@@ -438,7 +512,7 @@ void read_input(){
 				return;
 			}
 		}
-		else if (user->permissionType != 0){
+		else if (activeUser() != admin){
 			cout << "ERROR: You must be an admin to perform this transaction" << endl;
 			return;
 		}
