@@ -75,8 +75,6 @@ void execute_login(){
 	//User user = findUser(username);
 	findUser(username);
 
-
-
 	if(user.username == "null"){
 		cout << "ERROR: Username not found. " << endl; 
 		return;
@@ -197,44 +195,32 @@ void execute_create(){
 	float newBalance;
 
 	//take username
-
-		//input -> newUser;
-		//username length must be 15 chars or less
 	cout << "Enter the username of the new user: ";
 	cin >> newUser; 
-		//username selection
-
-	if (newUser.length() > 15 || newUser.length() == 0) {
-			//out invalid username
+	if (newUser.length() > 15 || newUser.length() == 0) {		//
 		cout << "ERROR: Username length not valid." << endl; 
 		return;
 	}
 
 
 	//find user account in user accounts file
-	//if not found, continue to start of loop
 	ifstream infile;
 	infile.open("accounts.txt");
 
 	string un; 
-
 	while(infile >> un){
 		
-		if(newUser == "END") break; 
+		if(un == "END") break; 
 
 		if(newUser == un){
 			cout << "ERROR: That user already exists." << endl;
+			infile.close();
 			return;  
 		}
 	}
-
 	infile.close();
 
-
-
 	//take usertype
-	
-		//input -> userYype
 	cout << "Enter the user's type: ";
 	cin >> newType;
 	if (newType < 0 || newType > 3) {
@@ -243,12 +229,50 @@ void execute_create(){
 		return; 
 	}
 
-
 	// Write to daily transaction
 }
 
 // Responsible for handling the delete command.
 void execute_delete(){
+	if (user.loggedIn == false) {
+		//termop -> error: not logged in
+		cout << "ERROR: User not logged in." << endl;
+		return;
+	}
+	if (user.permissionType != 0) {
+		//termop -> error: non admin user
+		cout << "ERROR: You must be an admin to perform this command. " << endl;
+		return;
+	}
+	cout << "Enter username of account to delete";
+
+	//take username
+	string targetUser;
+	cin >> targetUser;
+	if (targetUser.length() > 15 || targetUser.length() == 0) {		//
+		cout << "ERROR: Username length not valid." << endl;
+		return;
+	}
+
+	//find user account in user accounts file
+	ifstream infile;
+	infile.open("accounts.txt");
+
+	string un;
+	while (infile >> un) {
+		if (un == "END") {
+			cout << "ERROR: User doesn't exist" << endl;
+			infile.close();
+			return;
+		}
+		if (targetUser == un) {
+			break;
+		}
+	}
+	infile.close();
+	if (targetUser == admin.username) {
+		return;
+	}
 
 }
 
