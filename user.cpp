@@ -11,57 +11,65 @@ using namespace std;
 // Contains methods to allow users to login, logout, advertise an item, bid on an item, 
 // and add credit to their accounts.
 
-class User {
-public:
+class User{
+public: 
 
-	string username;
-	int permissionType; // 0 -> admin, 1 -> Full-Standard, 2 -> Buy-Standard, -> 3 -> Sell-Standard
+	string username; 
+	bool loggedIn;
+	string permissionType; // 0 -> admin, 1 -> Full-Standard, 2 -> Buy-Standard, -> 3 -> Sell-Standard
 	float creditBalance;
 
 	// Keeps track of user's transactions, will be writted to Daily Transaction File 
 	// at end of user session. 
 	// 01 -> create, 02 -> delete, 03 -> advertise, 04 -> bid, 05 -> refund, 06 ->addcredit  
-	vector<int> transactions;
-
+	vector<string> transactions;
+	
 	// Constructors
-	User() {
+	User(){
 		username = "null";
-		permissionType = -1;
-		creditBalance = 0;
+		loggedIn = false; 
+		permissionType = "";  
+		creditBalance = 0; 
 	}
 
-	User(string un, int pT, float cB) {
-		username = un;
+	User(string un, bool lI, string pT, float cB){
+		username = un; 
+		loggedIn = lI;
 		permissionType = pT;
-		creditBalance = cB;
+		creditBalance = cB; 
 	}
 
 	// Functions
+	int login(string username); 
+	int logout(string username); 
+	int advertise(string item, float startingBid, int days); 
+	int bid(float bid); 
+	int addCredit(float credit); 
 
-	int logout();
-	int advertise(string item, string seller, float startingBid, int days);
-	int bid(string item, string seller, string buyer, float bid);
-	int addCredit(float credit);
 
-};
 
+	};
+
+	// Must be logged in to preform transactions.
+	int User::login(string username){
+		return 0; 
+	}
 
 	// Ends user's session, responsible for writing transactions to Daily Transaction File.
-	int User::logout(){
-		//write daily transaction file
+	int User::logout(string username){
 		return 0;
 	}
 
 	// Allows a user with proper permissions to advertise an item.
 	// This function writes to the Available Items file so we can keep track of
 	// the auction's progress. 
-	int User::advertise(string item, string seller, float startingBid, int days){
+	int User::advertise(string item, float startingBid, int days){
 		return 0;
 	}
 
 	// Allows a user with proper permissions to bid on an advertised item.
 	// Item is located in the Available Items file.
-	int User::bid(string item, string seller, string buyer, float bid){
+	int User::bid(float bid){
 		return 0;
 	}
 
