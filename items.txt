@@ -1,2 +1,2 @@
-item                adminuser2      adminuser1     100 500.00
+item                      adminuser2      adminuser1     100 050.00
 END
