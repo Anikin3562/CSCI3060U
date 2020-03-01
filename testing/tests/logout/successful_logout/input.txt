@@ -1,0 +1,4 @@
+login
+bob
+logout
+exit

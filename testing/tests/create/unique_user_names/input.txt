@@ -2,6 +2,5 @@ login
 Bob
 create
 john
-AA
 logout
 exit

@@ -1,4 +1,8 @@
+enter transaction:
 enter username:
-successful login
+(Bob) enter transaction:
 enter username to delete:
-failed: cannot delete yourself
+ERROR: Cannot delete self
+(Bob) enter transaction:
+logout successful
+enter transaction:

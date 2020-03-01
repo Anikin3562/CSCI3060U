@@ -1,2 +1,1 @@
-01 abcdefghijklmno FS 000000.00
 00 Bob             AA 010000.00

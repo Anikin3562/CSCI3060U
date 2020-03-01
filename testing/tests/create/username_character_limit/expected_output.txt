@@ -1,7 +1,6 @@
 enter username:
-successful login!
-enter new username:
-enter new user type:
-successful create
+(Bob) enter transaction:
 enter new username:
 failed: usernames must be 15 characters or less
+(Bob) enter transaction:
+enter transaction:

@@ -1,9 +1,6 @@
+enter transaction:
 enter username:
-successful login
+(Marry Sue) enter transaction:
 failed: must be admin to delete a user
-enter username:
-successful login
-failed: must be admin to delete a user
-enter username:
-successful login
-failed: must be admin to delete a user
+(Marry Sue) enter transaction:
+enter transaction:

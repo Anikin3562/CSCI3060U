@@ -1,5 +1,5 @@
 enter username:
-successful login
+(Bob) enter transaction:
 enter new username:
-enter new user type:
-failed: username taken
+ERROR: That username is already is use!
+(Bob) enter transaction:

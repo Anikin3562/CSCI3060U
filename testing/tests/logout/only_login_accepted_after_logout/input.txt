@@ -8,3 +8,4 @@ advertise
 bid
 refund
 addcredit
+exit

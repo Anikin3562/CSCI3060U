@@ -1,3 +1,1 @@
 00 Marry Sue       FS 000100.00
-00 c00l guy #1     BS 999999.00
-00 john            SS 000000.00

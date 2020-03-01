@@ -1,9 +1,5 @@
+enter transaction:
 enter username:
-successful login
-failed: must be admin to create new user
-enter username:
-successful login
-failed: must be admin to create new user
-enter username:
-successful login
-failed: must be admin to create new user
+(Marry Sue) enter transaction:
+ERROR: transaction not available
+(Marry Sue) enter transaction:

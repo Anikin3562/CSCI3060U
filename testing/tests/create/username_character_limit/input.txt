@@ -1,9 +1,6 @@
 login
 Bob
 create
-abcdefghijklmno
-FS
-create
 abcdefghijklmnop
 logout
 exit

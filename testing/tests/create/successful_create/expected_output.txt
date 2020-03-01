@@ -1,5 +1,8 @@
+enter transaction:
 enter username:
-successful login
-enter new username:
-enter new user type:
-successful create
+(Bob) enter transaction:
+Enter the username of the new user:
+Enter the user's type:
+Enter the amount of credits the user will start with:
+(Bob) enter transaction:
+enter transaction:

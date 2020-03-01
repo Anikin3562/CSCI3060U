@@ -1,6 +1,10 @@
+enter transaction:
 enter username:
-login failed
+ERROR: account not found
+enter transaction:
 enter username:
-login failed
+ERROR: account not found
+enter transaction:
 enter username:
-login failed
+ERROR: account not found
+enter transaction:

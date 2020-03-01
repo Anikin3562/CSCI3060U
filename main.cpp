@@ -458,11 +458,12 @@ void read_input(){
     cin >> userInput;
 
     //exitrequest
-    if (userInput == "exit") 
-        exit(0);
+    
     
     //only login accepted if not logged in
     if (activeUser()==NULL) {
+		if (userInput == "exit")
+			exit(0);
         if (userInput == "login") 
             execute_login();
         else 

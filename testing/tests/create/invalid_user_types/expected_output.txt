@@ -1,5 +1,8 @@
+enter transaction:
 enter username:
-successful login
-enter new username:
-enter new user type:
-failed: invalid user type
+(Bob) enter transaction:
+Enter the username of the new user:
+Enter the user's type:
+Invalid Usertype.
+(Bob) enter transaction:
+enter transaction:
