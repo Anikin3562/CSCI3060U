@@ -1,0 +1,8 @@
+login
+Bob
+refund
+john
+Marry Sue
+1
+logout
+exit
