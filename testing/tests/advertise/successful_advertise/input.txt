@@ -1,0 +1,8 @@
+login
+Bob
+advertise
+ipod
+1.00
+1
+logout
+exit

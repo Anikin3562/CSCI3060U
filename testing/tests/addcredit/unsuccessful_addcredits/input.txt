@@ -1,0 +1,10 @@
+login
+Marry Sue
+addcredits
+abc
+addcredits
+0.001
+addcredits
+-1
+logout
+exit

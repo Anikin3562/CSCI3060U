@@ -1,0 +1,8 @@
+login
+Bob
+bid
+blue hat
+john
+5.00
+logout
+exit

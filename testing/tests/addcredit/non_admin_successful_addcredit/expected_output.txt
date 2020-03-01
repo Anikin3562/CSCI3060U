@@ -1,0 +1,4 @@
+enter username:
+successful login
+enter amount:
+successful addcredit

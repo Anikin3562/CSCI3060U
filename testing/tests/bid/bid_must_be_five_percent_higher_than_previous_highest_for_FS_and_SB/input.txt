@@ -1,0 +1,12 @@
+login
+Marry Sue
+bid
+blue hat
+john
+1.04
+bid
+blue hat
+john
+1.05
+logout
+exit

@@ -1,0 +1,9 @@
+enter username:
+successful login
+failed: must be admin to delete a user
+enter username:
+successful login
+failed: must be admin to delete a user
+enter username:
+successful login
+failed: must be admin to delete a user

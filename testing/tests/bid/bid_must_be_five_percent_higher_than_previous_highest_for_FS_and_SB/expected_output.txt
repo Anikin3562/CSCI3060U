@@ -1,0 +1,12 @@
+enter username:
+successful login
+enter item name:
+enter seller name:
+highest bid: $1.00 from Marry Sue
+enter your bid:
+failure: your bid must be at least 5% higher than highest bid
+enter item name:
+enter seller name:
+highest bid: $1.00 from Marry Sue
+enter your bid:
+successful bid

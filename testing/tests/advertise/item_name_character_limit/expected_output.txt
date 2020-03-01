@@ -1,0 +1,12 @@
+enter username:
+successful login
+enter item name:
+enter minimum bid:
+enter auction length (days):
+successful advertise
+enter item name:
+enter minimum bid:
+enter auction length (days):
+successful advertise
+enter item name:
+failed: maximum item name length is 19 characters

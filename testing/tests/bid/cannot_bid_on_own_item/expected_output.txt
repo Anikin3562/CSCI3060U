@@ -1,0 +1,5 @@
+enter username:
+successful login
+enter item name:
+enter seller name:
+failed: cannot bid on your own item

@@ -1,0 +1,3 @@
+enter username:
+successful login
+failed: buy-standard users cannot advertise

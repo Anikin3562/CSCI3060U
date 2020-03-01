@@ -1,0 +1,5 @@
+login
+john
+bid
+logout
+exit

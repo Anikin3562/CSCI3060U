@@ -1,0 +1,5 @@
+enter username:
+successful login
+enter new username:
+enter new user type:
+successful create
