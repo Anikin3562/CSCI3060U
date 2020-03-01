@@ -1,0 +1,4 @@
+05 john            Mary Sue        000000.01
+05 Mary Sue        john            000000.01
+05 john            c00l guy #1     999998.99
+00 Bob             AA 010000.00

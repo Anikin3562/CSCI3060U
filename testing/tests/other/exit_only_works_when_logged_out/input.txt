@@ -1,0 +1,5 @@
+login
+Bob
+exit
+logout
+exit

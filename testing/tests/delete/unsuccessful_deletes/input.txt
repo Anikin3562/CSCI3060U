@@ -1,0 +1,6 @@
+login
+Bob
+delete
+xxx
+logout
+exit
