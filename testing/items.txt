@@ -1,0 +1,3 @@
+guitar              Bob                            001 000.01
+red car             Marry Sue       Bob            999 999.99
+blue hat            john            Marry Sue      010 001.00

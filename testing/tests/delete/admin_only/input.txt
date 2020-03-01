@@ -1,0 +1,13 @@
+login
+Marry Sue
+delete
+logout
+login
+c00l guy #1
+delete
+logout
+login
+john
+delete
+logout
+exit

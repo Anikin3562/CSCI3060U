@@ -1,0 +1,6 @@
+enter username:
+successful login
+enter item name:
+enter minimum bid:
+enter auction length (days):
+successful advertise

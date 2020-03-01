@@ -1,0 +1,22 @@
+enter username:
+successful login
+enter item name:
+enter seller name:
+highest bid: $1.00 from Marry Sue
+enter your bid:
+failed: invalid bid
+enter item name:
+enter seller name:
+highest bid: $1.00 from Marry Sue
+enter your bid:
+failed: invalid bid
+enter item name:
+enter seller name:
+highest bid: $1.00 from Marry Sue
+enter your bid:
+successful bid
+enter item name:
+enter seller name:
+highest bid: $999.99 from Bob
+enter your bid:
+failed: maximum you can bid is $999.99

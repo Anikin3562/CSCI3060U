@@ -1,0 +1,20 @@
+login
+Bob
+bid
+blue hat
+john
+-1
+bid
+blue hat
+john
+0
+bid
+blue hat
+john
+999.99
+bid
+blue hat
+john
+1000.00
+logout
+exit

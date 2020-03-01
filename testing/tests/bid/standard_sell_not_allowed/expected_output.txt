@@ -1,0 +1,3 @@
+enter username:
+successful login
+failed: sell-standard users cannot bid

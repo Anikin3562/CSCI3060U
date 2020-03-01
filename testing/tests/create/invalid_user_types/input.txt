@@ -1,0 +1,7 @@
+login
+Bob
+create
+joe
+0
+logout
+exit

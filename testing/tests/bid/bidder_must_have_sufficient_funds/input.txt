@@ -1,0 +1,12 @@
+login
+Marry Sue
+bid
+guitar
+Bob
+100
+bid
+guitar
+Bob
+100.01
+logout
+exit

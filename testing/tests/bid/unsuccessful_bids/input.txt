@@ -1,0 +1,10 @@
+login
+Bob
+bid
+pickle
+john
+bid
+blue hat
+jeff
+logout
+exit
