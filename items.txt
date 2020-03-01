@@ -1,2 +1,1 @@
-item                      adminuser2      adminuser1     100 050.00
-END
+item                      adminuser1                       015 15.000000
