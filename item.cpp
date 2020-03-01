@@ -15,23 +15,22 @@ class Item {
 public:
 
 	string name;
-
+	string sellerName;
 	int daysLeft; 	// Days left on the auction. 
 	float currentBid;	// The current-highest bid on the item.
 	string currentBidder;	// Name of user with the highest bid. 
-
-	// Tracks bids made by users.
-	map<User, float> bidLog;
-
 	// Constructors
 	Item() {
 		name = "null";
+		sellerName = "null";
 		daysLeft = -1;
 		currentBid = -1;
+		currentBidder = "null";
 	}
 
-	Item(string n, int dl, float cB, string cBr) {
+	Item(string n, string sN, int dl, float cB, string cBr) {
 		name = n;
+		sellerName = sN;
 		daysLeft = dl;
 		currentBid = cB;
 		currentBidder = cBr;
