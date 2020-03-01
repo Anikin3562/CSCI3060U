@@ -16,41 +16,69 @@ public:
 		permissionType = "AA";
 	}
 
-	Admin(string un, bool lI, float cB ){
+	Admin(string un, float cB ){
 		username = un; 
-		loggedIn = lI;
 		creditBalance = cB;
 		permissionType = "AA"; 
 	}
 
-	// Functions
-	int create(string username, int permissions, float credits); 
-	int refund(string sellerUsername, string buyerUsername, float amount); 
-	int deleteUser(string username);
-
-	// Overloaded Function
-	int addCredit(float credit);
+	int create(User* target); 
+	int refund(User* buyer, User* seller, float amount); 
+	int deleteUser(User* target);
+	int addCredit(User* target, float amount);
 
 };
 
-// Only admins can create other Users.
-int Admin::create(string username, int permissions, float credits){
+int Admin::create(User* target){
+	string transaction = "01 ";
+	//username
+	transaction += target->username + string(15 - target->username.length() + 1, ' ');
+	//permission
+	transaction += target->permissionType + ' ';
+	//balance
+	transaction += creditBalance_toString(target->creditBalance);
+
+	this->transactions.push_back(transaction);
 	return 0; 
 }
 
-// Refunds credits from a Seller's balance to a buyer's. 
-int Admin::refund(string sellerUsername, string buyerUsername, float amount){
+int Admin::refund(User* seller, User* buyer, float amount){
+	string transaction = "05 ";
+	//buyer
+	transaction += buyer->username + string(15 - buyer->username.length() + 1, ' ');
+	//seller
+	transaction += seller->username + string(15 - seller->username.length() + 1, ' ');
+	//refund value
+	transaction += creditBalance_toString(amount);
+
+	this->transactions.push_back(transaction);
 	return 0; 
 }
 
-// Only admins can delete other Users.
-int Admin::deleteUser(string username){
+int Admin::deleteUser(User* target){
+	string transaction = "02 ";
+	//username
+	transaction += target->username + string(15 - target->username.length() + 1, ' ');
+	//permission
+	transaction += (target->permissionType + " ");
+	//balance
+	transaction += creditBalance_toString(target->creditBalance);
+
+	this->transactions.push_back(transaction);
 	return 0;
 }
 
-// This function works different for Admins 
-// than it does for other users. 
-int Admin::addCredit(float credit){
+int Admin::addCredit(User* target, float amount){
+	string transaction = "06 ";
+
+	//username 
+	transaction += target->username + string(15 - target->username.length() + 1, ' ');
+	//account type
+	transaction += target->permissionType + ' ';
+
+	transaction += creditBalance_toString(amount);
+	this->transactions.push_back(transaction);
+
 	return 0;
 }
 

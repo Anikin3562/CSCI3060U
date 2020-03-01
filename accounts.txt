@@ -1,4 +1,3 @@
-adminuser-1     AA 000110.00
-fsuser-1        FS 001000.00
-ssuser-1        SS 000900.00
+adminuser1      AA 110      
+joe             FS 999   
 END
