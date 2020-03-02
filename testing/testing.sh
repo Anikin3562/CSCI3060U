@@ -10,7 +10,7 @@ do
 	if ! cmp -s "tests/login/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/login/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/login/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -25,7 +25,7 @@ do
 	if ! cmp -s "tests/logout/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/logout/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/logout/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -40,7 +40,7 @@ do
 	if ! cmp -s "tests/create/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/create/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/create/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -55,7 +55,7 @@ do
 	if ! cmp -s "tests/delete/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/delete/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/delete/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -70,7 +70,7 @@ do
 	if ! cmp -s "tests/addcredit/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/addcredit/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/addcredit/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -85,7 +85,7 @@ do
 	if ! cmp -s "tests/addcredit/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/addcredit/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/addcredit/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -100,7 +100,7 @@ do
 	if ! cmp -s "tests/bid/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/bid/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/bid/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -115,7 +115,7 @@ do
 	if ! cmp -s "tests/refund/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/refund/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/refund/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
@@ -130,7 +130,7 @@ do
 	if ! cmp -s "tests/other/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
-	if ! cmp -s "tests/other/$TEST/expected_transactions.txt" output.txt; then
+	if ! cmp -s "tests/other/$TEST/expected_transactions.txt" daily_transactions.txt; then
 		echo "FAILED: transactions"
 	fi
 done
