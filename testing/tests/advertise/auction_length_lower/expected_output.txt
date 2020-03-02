@@ -1,0 +1,8 @@
+enter transaction: 
+enter username: 
+(adminuser1) enter transaction: 
+Enter the name of the item you wish to advertise: 
+Enter the minimum bid for the item: 
+Enter the number of days the auction will run for: 
+ERROR: Advertisement must run for at least a day!
+(adminuser1) enter transaction: 

@@ -1,0 +1,5 @@
+enter transaction:
+(Bob) enter transaction:
+ERROR: transaction not available
+(Bob) enter transaction:
+enter transaction:

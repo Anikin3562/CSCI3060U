@@ -1,3 +1,0 @@
-03 a                   Bob           001 001.00
-03 bbbbbbbbbbbbbbbbbbb Bob           001 001.00
-00 Bob             AA 010000.00

@@ -122,9 +122,11 @@ void execute_login(){
 				user = new User(account_name,account_perms,account_balance);
 			}
 			read_itemsFile();
+			break;
 		}
-		cout << "ERROR: account not found";
 	}
+	cout << "ERROR: user does not exist";
+	return;
 }
 
 // Responsible for handling the logout command.
@@ -149,7 +151,7 @@ void execute_advertise(){
 	cin >> itemName; 
 
 	if (!(itemName.length() <= 25 || itemName.length() == 0)) {
-		cout << "ERROR: Item's name must be at least 1 character and at most 25." << endl;
+		cout << "ERROR: value out of range" << endl;
 		return; 
 	} 
 
@@ -163,7 +165,7 @@ void execute_advertise(){
 	}
 
 	if(minBid > 999.99){
-		cout << "ERROR: starting bid cannot exceed $999.99." << endl; 
+		cout << "ERROR: starting bid cannot exceed $999.99" << endl; 
 		return; 
 	}
 
@@ -172,12 +174,12 @@ void execute_advertise(){
 	cin >> daysRemaining;
 
 	if(daysRemaining < 1){
-		cout << "ERROR: Advertisement must run for at least a day!" << endl; 
+		cout << "ERROR: advertisement must run for at least a day" << endl; 
 		return; 
 	}
 
 	if(daysRemaining > 100){
-		cout << "ERROR: Advertisement can run for at most 100 days!" << endl; 
+		cout << "ERROR: advertisement can run for at most 100 days" << endl; 
 		return; 
 	}
 
@@ -216,12 +218,12 @@ void execute_bid(){
 				daysLeft = item->daysLeft;
 				highestBid = item->currentBid;	
 			}
-			
 		}
 	}
 
 	if(!sellerExists || !itemExists){
 		cout << "ERROR: This user does not exist/ Item not sold by this user." << endl; 
+		return;
 	}
 	cout << "Enter your bid: ";
 	cin >> userBid;
@@ -289,7 +291,7 @@ void execute_addcredit(){
 			cout << "ERROR: Adding this credit would make user exceed maximum credit limit!" << endl;
 			return;
 		}
-		admin->addCredit(target, (target->creditBalance + credit) );
+		admin->addCredit(target, credit );
 	}
 
 	if (activeUser() == user) {
@@ -298,7 +300,7 @@ void execute_addcredit(){
 			return;
 		}
 
-		user->addCredit(user->creditBalance + credit);
+		user->addCredit(credit);
 	}
 }
 
@@ -400,50 +402,52 @@ void execute_refund(){
 	float credit;
 	User* buyer;
 	User* seller;
+	bool buyerExists = false;
+	bool sellerExists = false;
 
 	cout << "Enter the buyer's username: ";
 	cin >> buyerName;
 
-	bool buyerExists = false; 
-	bool sellerExists = false; 
-
-	//verify buyer exists, return if false
-	//verify seller exists, return if false
+	//find buyer
+	for (auto& account : accounts) {
+		if (buyerName == account->username) {
+			buyerExists = true;
+		}
+	}
+	if (buyerExists == false) {
+		cout << "ERROR: user does not exist" << endl;
+			return;
+	}
 
 	cout << "Enter the seller's username: ";
 	cin >> sellerName;
 
+	//find seller
 	for(auto &account : accounts){
-		if(buyerName == account->username){
-			buyerExists = true; 
-		}
-
 		if(sellerName == account->username){
 			sellerExists = true; 
 		}
 	}
-
-	if(!buyerExists){
-		cout << "ERROR: Buyer does not exist!" << endl; 
-		return; 
+	if (sellerExists == false) {
+		cout << "ERROR: user does not exist" << endl;
+			return;
 	}
 
-	if(!sellerExists){
-		cout << "ERROR: Seller does not exist!" << endl; 
-		return; 
-	}
 
 	
 	cout << "Enter the amount of credit you wish to refund: ";
 	cin >> credit;
+	if (credit <= 0) {
+		cout << "ERROR: invalid credit value";
+	}
 
 	if (seller->creditBalance < credit) {
-		cout << "ERROR: Seller does not have enough credits to transfer!" << endl;
+		cout << "ERROR: Seller does not have enough credits to transfer" << endl;
 		return;
 	}
 
 	if ((buyer->creditBalance + credit) > 999999.99) {
-		cout << "ERROR: Buyer's credit would exceed the maximum allowed credits!" << endl;
+		cout << "ERROR: Buyer's credit would exceed the maximum allowed credits" << endl;
 		return;
 	}
 	admin->refund(buyer, seller, credit);
@@ -478,7 +482,7 @@ void read_input(){
         //transactions available to all users
 
         if (userInput == "login") {
-            cout << "ERROR: already logged in" << endl;
+            cout << "ERROR: transaction not available" << endl;
             return;
         }
         else if (userInput == "logout") {

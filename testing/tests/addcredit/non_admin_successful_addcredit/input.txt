@@ -1,6 +1,0 @@
-login
-Marry Sue
-addcredit
-100
-logout
-exit

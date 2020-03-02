@@ -17,12 +17,8 @@ Marry Sue
 john
 0.01
 refund
+Marry Sue
 john
-c00l guy #1
-999999
-refund
-john
-c00l guy #1
-999998.99
+1000000
 logout
 exit

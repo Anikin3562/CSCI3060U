@@ -1,0 +1,8 @@
+enter transaction: 
+enter username: 
+(adminuser1) enter transaction: 
+Enter the name of the user you wish to add credit to: 
+Enter the amount of credit you wish to add: 
+ERROR: Maximum amount of credit that can be added is $1000
+successfully logged out
+enter transaction: 

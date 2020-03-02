@@ -1,0 +1,5 @@
+login
+adminuser1
+addcredit
+non-user
+logout

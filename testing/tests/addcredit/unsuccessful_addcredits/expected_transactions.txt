@@ -1,8 +1,0 @@
-enter username:
-successful login
-enter amount:
-failed: invalid amount
-enter amount:
-failed: invalid amount
-enter amount
-failed: invalid amount
