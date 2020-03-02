@@ -1,5 +1,9 @@
-Enter you name:
-Welcome!
-Who are you granting credit to?
-How much credit are you adding?
-ERROR: Grant this user this amount of credit will exceed their maximum allowed credit of 999,999.99.
+enter transaction: 
+enter username: 
+(adminuser1) enter transaction: 
+Enter the name of the user you wish to add credit to: 
+Enter the amount of credit you wish to add: 
+ERROR: Adding this credit would make user exceed maximum credit limit!
+(adminuser1) enter transaction: 
+successfully logged out
+enter transaction: 

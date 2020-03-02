@@ -2,7 +2,4 @@ enter transaction:
 enter username: 
 (adminuser1) enter transaction: 
 Enter the name of the user you wish to add credit to: 
-Enter the amount of credit you wish to add: 
-ERROR: Cannot add 0 / negative credit
-successfully logged out
-enter transaction: 
+ERROR: account not found

@@ -1,3 +1,7 @@
-Enter your username: 
-Welcome!
-ERROR: User does not have sufficient permissions to perform this action.
+enter transaction: 
+enter username: 
+(bsuser1) enter transaction: 
+ERROR: This user has insufficient permissions to perform this command.
+(bsuser1) enter transaction: 
+successfully logged out
+enter transaction: 

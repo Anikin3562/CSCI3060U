@@ -1,4 +1,8 @@
-Enter your username: 
-Welcome!
-Enter the name of the item you wish to auction:
-ERROR: Item name can be at most 19 characters in length.
+enter transaction: 
+enter username: 
+(adminuser1) enter transaction: 
+Enter the name of the item you wish to advertise: 
+ERROR: Item's name must be at least 1 character and at most 25.
+(adminuser1) enter transaction: logout
+successfully logged out
+enter transaction: 
