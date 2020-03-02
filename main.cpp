@@ -17,6 +17,7 @@ vector <Item*> items;				//stores items
 
 string accountsFile;
 string itemsFile;
+string transFile;
 
 //template function that will return the current active user.
 template <class T=User*>
@@ -128,7 +129,7 @@ void execute_login(){
 // Responsible for handling the logout command.
 void execute_logout(){
 	//write transaction file 
-	activeUser()->logout();		//will create daily transaction files
+	activeUser()->logout(transFile);		//will create daily transaction files
 	user = NULL;
 	admin = NULL;
 	cout << "successfully logged out" << endl;
@@ -190,6 +191,10 @@ void execute_bid(){
 
 	cout << "Enter the seller's username: ";
 	cin >> sellerName;
+
+	if (sellerName = activeUser()->username) {
+		cout << "ERROR: cannot bid on own item";
+	}
 
 	string un;
 	string in;
@@ -519,12 +524,13 @@ void read_input(){
 
 
 int main(int argc, char** argv){
-	if (argc == 3) {
+	if (argc == 4) {
 		accountsFile = argv[1];
 		itemsFile = argv[2];
+		transFile = argv[3];
 	}
 	else {
-		cout << "usage: ./a.out accounts.txt items.txt" << endl;
+		cout << "USAGE:: ./a.out accounts.txt items.txt transfile.txt" << endl;
 		exit(0);
 	}
 

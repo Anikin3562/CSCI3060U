@@ -4,3 +4,4 @@ admin.o
 item.o
 user.o
 .old
+a.out

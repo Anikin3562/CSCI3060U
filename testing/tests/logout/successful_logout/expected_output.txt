@@ -1,4 +1,4 @@
 enter transaction:
-(bob) enter transaction:
+(Bob) enter transaction:
 successfully logged out
 enter transaction:

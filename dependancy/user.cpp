@@ -76,13 +76,13 @@ public:
 
 	// Functions
 
-	int logout();
+	int logout(string fileName);
 	int advertise(string item, float startingBid, int days);
 	int bid(string item, string seller, float bid);
 	int addCredit(float credit);
 };
 
-	int User::logout(){//WRITE THE DAILY TRANSACTION FILE
+	int User::logout(string filenName){//WRITE THE DAILY TRANSACTION FILE
 		//add logout transaction
 		string transaction = "00 ";
 		transaction += (this->username + string(this->username.length() + 1, ' '));
@@ -92,7 +92,7 @@ public:
 		//logout transaction added
 
 		ofstream write;
-		write.open("temp_transaction.txt");
+		write.open(filenName);
 		for (auto& transaction : this->transactions) {
 			write << transaction << endl;
 		}
