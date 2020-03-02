@@ -105,9 +105,7 @@ void read_itemsFile() {
 
 //Responsible for handling the login command. 
 void execute_login(){
-	
 	read_accountsFile();
-
 	//request and take in username input
 	cout << "enter username: ";
 	string username;
@@ -123,7 +121,9 @@ void execute_login(){
 			else {
 				user = new User(account_name,account_perms,account_balance);
 			}
+			read_itemsFile();
 		}
+		cout << "ERROR: account not found";
 	}
 }
 
@@ -134,6 +134,8 @@ void execute_logout(){
 	user = NULL;
 	admin = NULL;
 	cout << "successfully logged out" << endl;
+	itemsFile.clear();
+	accountsFile.clear();
 }
 
 // Responsible for handling the advertise command.
@@ -526,9 +528,8 @@ int main(int argc, char** argv){
 		exit(0);
 	}
 
-	cout << "/////////////////////////\n* Auction System Online *\n/////////////////////////\n" << endl; 
-	read_accountsFile();
-	read_itemsFile();
+	//don't use while testing
+	//cout << "/////////////////////////\n* Auction System Online *\n/////////////////////////\n" << endl; 
 	while(1){
 		read_input();
 	}
