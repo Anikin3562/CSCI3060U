@@ -1,0 +1,3 @@
+adminuser1      AA 110      
+joe             FS 999   
+END

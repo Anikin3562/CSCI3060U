@@ -1,9 +1,0 @@
-enter transaction: 
-enter username: 
-(adminuser1) enter transaction: 
-Enter the name of the user you wish to add credit to: 
-Enter the amount of credit you wish to add: 
-ERROR: Adding this credit would make user exceed maximum credit limit!
-(adminuser1) enter transaction: 
-successfully logged out
-enter transaction: 

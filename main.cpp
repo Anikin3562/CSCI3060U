@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "user.cpp"
-#include "admin.cpp"
-#include "item.cpp"
+#include "dependancy/user.cpp"
+#include "dependancy/admin.cpp"
+#include "dependancy/item.cpp"
 #include <fstream>
 
 using namespace std; 
@@ -46,9 +46,8 @@ string removeSpaces(string str) {
 
 //function to read the current accounts file | called upon every login request
 void read_accountsFile() {
-    accounts.clear();    //clear the current values in accountsFile
     ifstream read;                    
-    read.open( accountsFile );
+    read.open(accountsFile );
 
     string line;
     string username; 
@@ -67,13 +66,10 @@ void read_accountsFile() {
     	temp = new User(username, userType, credits);
 
     	accounts.push_back(temp);
-
-
     }
     read.close();
 }
 
-//function to read the current available items file | called upon every succesful login
 //function to read the current available items file | called upon every succesful login
 void read_itemsFile() {
 	items.clear();
@@ -122,10 +118,10 @@ void execute_login(){
 				user = new User(account_name,account_perms,account_balance);
 			}
 			read_itemsFile();
-			break;
+			return;
 		}
 	}
-	cout << "ERROR: user does not exist";
+	cout << "ERROR: user does not exist"<<endl;
 	return;
 }
 

@@ -1,4 +1,4 @@
-01 new1            AA 000050.00
+06 adminuser1      AA 000300.00
 00 adminuser1           AA 000110.00
 
 
