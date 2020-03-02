@@ -192,7 +192,7 @@ void execute_bid(){
 	cout << "Enter the seller's username: ";
 	cin >> sellerName;
 
-	if (sellerName = activeUser()->username) {
+	if (sellerName == activeUser()->username) {
 		cout << "ERROR: cannot bid on own item";
 	}
 
