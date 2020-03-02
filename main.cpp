@@ -229,11 +229,18 @@ void execute_bid(){
 	cout << "Enter your bid: ";
 	cin >> userBid;
 
-	if (userBid <= highestBid) {
-		cout << "ERROR: Your bid must be higher than the previous bid!" << endl;
-		return;
+	//admin user types must bid higher
+	if (activeUser()->permissionType == "AA") {
+		if (userBid <= highestBid) {
+			cout << "ERROR: Your bid must be higher than the previous bid!" << endl;
+			return;
+		}
 	}
-
+	else {
+		if (userBid <= highestBid * 1.05) {
+			cout << "ERROR: Your bid must be higher than the previous bid by at least 5%" << endl;
+		}
+	}
 	if (userBid > 999.99) {
 		cout << "ERROR: Maximum bid is $999.99." << endl;
 		return;
@@ -490,11 +497,13 @@ void read_input(){
             execute_logout();
             return;
         }
-        else if (userInput == "advertise") {
+		//buy standard accounts can't advertise
+        else if (userInput == "advertise" && activeUser()->permissionType != "BS") {
             execute_advertise();
             return;
         }
-        else if (userInput == "bid") {
+		//sell standard accounts can't bid
+        else if (userInput == "bid" && activeUser()->permissionType != "SS") {
             execute_bid();
             return;
         }
