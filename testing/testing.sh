@@ -6,7 +6,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing login/$TEST test
-	../auction_system accounts.txt items.txt <tests/login/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/login/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/login/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -21,7 +21,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing logout/$TEST test
-	../auction_system accounts.txt items.txt <tests/logout/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/logout/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/logout/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -36,7 +36,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing create/$TEST test
-	../auction_system accounts.txt items.txt <tests/create/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/create/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/create/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -51,7 +51,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing delete/$TEST test
-	../auction_system accounts.txt items.txt <tests/delete/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/delete/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/delete/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -61,12 +61,12 @@ do
 done
 
 #addcredit tests
-for TEST in addcredit_limit admin_successful_addcredit non_admin_successful_addcredit unsuccessful_addcredits
+for TEST in addcredit_admin addcredit_admin_user_exists addcredit_exceeds_max addcredit_max addcredit_min addcredit_standard
 do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing addcredit/$TEST test
-	../auction_system accounts.txt items.txt <tests/addcredit/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/addcredit/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/addcredit/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -76,12 +76,12 @@ do
 done
 
 #advertise tests
-for TEST in days_for_auction_constraints item_name_character_limit price_constraints standard_buy_not_allowed successful_advertise
+for TEST in auction_length_lower auction_length_upper auction_output has_permissions item_name_length mid_bid_upper min_bid_lower
 do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing addcredit/$TEST test
-	../auction_system accounts.txt items.txt <tests/addcredit/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/addcredit/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/addcredit/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -96,7 +96,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing bid/$TEST test
-	../auction_system accounts.txt items.txt <tests/bid/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/bid/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/bid/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -111,7 +111,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing refund/$TEST test
-	../auction_system accounts.txt items.txt <tests/refund/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/refund/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/refund/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
@@ -126,7 +126,7 @@ do
 	>output.txt #empty output.txt
 	>daily_transactions.txt #empty daily_transactions.txt
 	echo performing other/$TEST test
-	../auction_system accounts.txt items.txt <tests/other/$TEST/input.txt >output.txt
+	../auction_system accounts.txt items.txt daily_transactions.txt <tests/other/$TEST/input.txt >output.txt
 	if ! cmp -s "tests/other/$TEST/expected_output.txt" output.txt; then
 		echo "FAILED: console output"
 	fi
