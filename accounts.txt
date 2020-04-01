@@ -1,2 +1,3 @@
-adminuser1      AA 110      
+adminuser1      AA 001199.37
+Boby Jim        FS 000010.99
 END

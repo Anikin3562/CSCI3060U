@@ -3,27 +3,137 @@
 #include <vector>
 #include <map>
 #include "user.cpp"
-#include "admin.cpp"
-#include "item.cpp"
+//#include "admin.cpp"
+//#include "item.cpp"
 #include <fstream>
+
+#define MAX_USERNAME_LEN 15
+#define MAX_CREDIT_DOLLAR_LEN 6
 
 using namespace std;
 
-#define USER_ACCTS_FILE "accounts.txt";
+void loadUsers(map<string, User*>&, string);
 
-User user; 
-Admin admin;
-int activeUser; // 0 if user, 1 if admin. 
-// This is the main program. 
-// This where user interaction with the system occurs. 
-// The main method continuously reads input via the read_input()
-// function. This function will detect command keywords (such as login, logout, auction, etc.) and
-// then (given that the user has proper permissions) these functions will be executed by the
-// execute functions. 
+int main(int argc, char** argv){
+	//load data from accounts file
+	cout << "what" << endl;
+	map<string, User*> accounts;
+	cout << "hey" << endl;
+	loadUsers(accounts, argv[1]);
+	cout << "yo" << endl;
+	//load data form items file
+	string input;
+	User currentUser("hello", "AA", 10000);
+	do{
+		cout << "enter transaction: ";
+		cin >> input;
+		if(input == "login"){
+			//handle
+		} else if(input == "logout"){
 
-// These execute functions will utilize the previously declared functions in User, Admin, and Item.
+		} else if(input == "create"){
+			
+		} else if(input == "delete"){
+			
+		} else if(input == "addcredit"){
+			
+		} else if(input == "refund"){
+			
+		} else if(input == "advertise"){
+			
+		} else if(input == "bid"){
+			
+		} else if(input != "exit"){
+			cout << "invalid input" << endl;
+		}
+	}while(input != "exit");
 
+	return 0;
+}
 
+void loadUsers(map<string, User*>& accounts, string filename){
+	ifstream file(filename);
+	string input;
+	string username;
+	string type;
+	int credit_dollars, credit_cents;
+	
+	while(getline(file,input)){
+		if(input == "END") break;
+		int i;
+		//GET USERNAME
+		for(i=MAX_USERNAME_LEN-1; i>0; i--){
+			if(input[i] != ' ') break;
+		}
+		username = input.substr(0, i+1);
+		//GET USER TYPE
+		cout << input << endl;
+		type = input.substr(MAX_USERNAME_LEN+1, 2);
+		//GET USER CREDIT
+		credit_dollars = stoi(input.substr(MAX_USERNAME_LEN+4, MAX_CREDIT_DOLLAR_LEN));
+		credit_cents = stoi(input.substr(MAX_USERNAME_LEN+4+MAX_CREDIT_DOLLAR_LEN+1, 2));
+		int credit = credit_dollars*100 + credit_cents;
+		//User newUser(username, type, credit);
+		accounts.insert(pair<string, User*>(username,new User(username, type, credit)));
+	}
+
+	/*
+	//DEBUGGING ACCOUNTS MAP
+	cout << accounts.size() << endl;
+	map<string, User*>::iterator it = accounts.begin();
+	while(it != accounts.end()){
+		cout << "element's key: " << it->first << endl;
+		it++;
+	}
+	cout << accounts["adminuser1"]->get_username() << ' ' << accounts["adminuser1"]->get_type() << ' ' << accounts["adminuser1"]->get_credit() << endl;
+	/*
+
+	/*while(true){
+		cout << "debug0" << endl;
+		//GET USERNAME
+		file.read(input, MAX_USERNAME_LEN);
+		cout << "debug0.5" << endl;
+		//remove spaces at the end of username
+		int i;
+		for(i=MAX_USERNAME_LEN-1; i > 0; i--){
+			if(username[i] != ' '){
+				username[i] = '\0';
+				break;}
+		}
+		cout << "debug1" << endl;
+		username = input;
+		username = username.substr(0, i+1);
+		cout << i << "  " << username.length() << endl;
+		if(username == "\nEND") break;
+		file.ignore(1,EOF); //ignore space in-between data
+		cout << "debug2" << endl;
+		//GET USER TYPE
+		file.read(input, 2);
+		input[2] = '\0';
+		type = input;
+		file.ignore(1,EOF); //ignore space in-between data
+		cout << "debug3" << endl;
+		//GET USER CREDIT
+		file.read(input, MAX_CREDIT_DOLLAR_LEN);
+		input[MAX_CREDIT_DOLLAR_LEN] = '\0';
+		cout << input << endl;
+		credit_dollars = stoi(input);
+		file.ignore(1,EOF); //ignore decimal point in-between dollars and cents
+		file.read(input, 2);
+		input[2] = '\0';
+		cout << input << endl;
+		credit_cents = stoi(input);
+		cout << "debug4" << endl;
+
+		//add new user to map
+		int credit = credit_dollars*10 + credit_cents;
+		User newUser(username, type, credit);
+		accounts.insert(pair<string,User>(username,newUser));
+		cout << "debug5" << endl;
+	}*/
+}
+
+/*
 void findUser(string username){
 
 	ifstream infile;
@@ -299,4 +409,4 @@ int main(int argc, char** argv){
 	while(1){
 		read_input();
 	}
-}
+}*/
