@@ -4,44 +4,38 @@
 #include <string>
 #include <map>
 #include "user.cpp"
-#include "admin.cpp"
 using namespace std; 
 
-// This class represents an item, which a user can auction.
-// Item objects track their own auction details. 
-// Constructor takes item name, ID, days left on its auction, current (highest) bid,
-// and the current (highest) bidder. 
 class Item{
+
+private:
+	string itemName;
+	string sellerName;
+	string highestBidder;
+	int daysLeft;
+	int price;
+
 public:
-
-	string name;  
-	int itemID; 
-
-	int daysLeft; 	// Days left on the auction. 
-	float currentBid;	// The current-highest bid on the item.
-	User currentBidder;	// Name of user with the highest bid. 
-
-	// Tracks bids made by users.
-	map<User, float> bidLog; 
-	
-	// Constructors
-	Item(){
-		name = "null";
-		itemID = -1; 
-		daysLeft = -1; 
-		currentBid = -1; 
-		
-
+	//Constructor
+	Item(string _itemName, string _sellerName, string _highestBidder, int _daysLeft, int _price){
+		itemName = _itemName;
+		sellerName = _sellerName;
+		highestBidder = _highestBidder;
+		daysLeft = _daysLeft;
+		price = _price;
 	}
 
-	Item(string n, int id, int dl, float cB, User cBr){
-		name = n; 
-		itemID = id;
-		daysLeft = dl; 
-		currentBid = cB; 
-		currentBidder = cBr; 
+	//getters
+	string get_itemName(){return itemName;}
+	string get_sellerName(){return sellerName;}
+	string get_highestBidder(){return highestBidder;}
+	int get_daysLeft(){return daysLeft;}
+	int get_price(){return price;}
+
+	void updateBid(string bidder, int amount){
+		highestBidder = bidder;
+		price = amount;
 	}
 };
-
 
 #endif
