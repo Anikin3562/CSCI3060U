@@ -5,7 +5,6 @@
 #include <vector> 
 
 #define MAX_CREDIT 999999
-//define user types
 
 using namespace std;
 
