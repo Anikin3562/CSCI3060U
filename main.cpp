@@ -55,9 +55,9 @@ int main(int argc, char** argv){
 		} else if(input == "logout"){
 		//HANDLE LOGOUT TRANSACTION
 			if(currentUser != NULL){
+				writeTransactionA(transactionOFS, "00", currentUser->get_username(), currentUser->get_type(), intToCreditString(currentUser->get_credit()));
 				currentUser = NULL;
 				cout << "logout successful" << endl;
-				writeTransactionA(transactionOFS, "00", currentUser->get_username(), currentUser->get_type(), intToCreditString(currentUser->get_credit()));
 			} else{
 				cout << "ERROR: must be logged in" << endl;
 			}
@@ -86,14 +86,15 @@ int main(int argc, char** argv){
 						credit_str = getUserInput();
 						//check if credit_str is a valid integer, if not print an error message, else continue
 						if(!isStringValidCredit(credit_str)){
-							cout << "failed: credit must be entered as a valid integer (cents)" << endl;
+							cout << "failed: credit must be entered in dollar (dot) decimal notation" << endl;
 						} else{
 							credit = creditStringToInt(credit_str);
 							//check if credit is within bounds, if not then print error message, else continue to create new user account
 							if(credit > MAX_CREDITS){
 								cout << "failed: credit value too large, maximum is 999999.00" << endl;
 							} else{
-								accounts.insert(pair<string, User*>(username,new User(username, type, credit)));
+								//accounts.insert(pair<string, User*>(username,new User(username, type, credit))); maybe shouldn't actually insert, just leave it as a transaction and user becomes active after backend runs
+								writeTransactionA(transactionOFS, "01", username, type, intToCreditString(credit));
 							}
 						}
 					}
@@ -115,12 +116,12 @@ int main(int argc, char** argv){
 			cout << "invalid input" << endl;
 		}
 	}
-
+	transactionOFS.close();
 	return 0;
 }
 
 string intToCreditString(int credit){
-	return to_string(credit-(credit%100)) + '.' + to_string(credit%100);
+	return to_string(credit/100) + '.' + to_string(credit%100);
 }
 
 int creditStringToInt(string s){
@@ -135,7 +136,7 @@ int creditStringToInt(string s){
 	int dollars = stoi(s.substr(0,i));
 	int cents;
 	if(has_cents)
-		cents = stoi(s.substr(i,2));
+		cents = stoi(s.substr(i+1,2));
 	else
 		cents = 0;
 
@@ -149,10 +150,10 @@ bool isStringValidCredit(string s){
 		if(!isdigit(s[i])) return false;
 	}
 	int j = i+1;
-	for(j; i+j < s.length() && j < i+2; j++){
-		if(!isdigit(s[i])) return false;
+	for(j; j < s.length(); j++){
+		if(!isdigit(s[j])) return false;
 	}
-	if(j-1 != i+2) return false;
+	if(j != i+3) return false; //this just checks if the last for loop iterated twice, if it didn't iterate exactly twice that would indicate that there were not exactly 2 digits after the period as there should have been, so return false
 	return true;
 }
 
