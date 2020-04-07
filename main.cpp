@@ -11,6 +11,8 @@
 #define MAX_CREDIT_DOLLAR_LEN 6
 #define MAX_CREDITS 99999900
 #define MAX_CREDITS_ADDED 100000
+#define MAX_ITEM_PRICE 99999
+#define MAX_AUCTION_LEN 100
 
 using namespace std;
 
@@ -198,7 +200,46 @@ int main(int argc, char** argv){
 			writeTransactionB(transactionOFS, "05", buyerName, sellerName, amount);
 		} else if(input == "advertise"){
 		//***************HANDLE ADVERTISE TRANSACTION***************
-
+			if(currentUser->get_type() == "BS"){
+				cout << "ERROR: transaction not available" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter the name of the item you wish to advertise:"
+			string itemName = getUserInput();
+			if(itemName.length() > MAX_ITEMNAME_LEN){
+				cout << "failed: max item name length is 19 characters" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			string sellerName = currentUser->get_username;
+			if(items[pair<string,string>(itemName, sellerName)] != items.end()){
+				cout << "failed: you are already selling an item with this name" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter the minimum bid for the item:" << endl;
+			string credit_str = getUserInput();
+			if(!isStringValidCredit(credit_str)){
+				cout << "failed: credit must be positive and entered in dollar (dot) decimal notation" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			int minBid = creditStringToInt(credit_str);
+			if(minBid > MAX_ITEM_PRICE){
+				cout << "failed: price cannot exceed 999.99" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter the number of days the auction will run for:" << endl;
+			string numDays_str = getUserInput();
+			for(int i=0; i < numDays_str.length(); i++){
+				if(!isdigit(numDays_str[i])){
+					cout << "failed: number of days must be positive and entered as a valid integer" << endl;
+					goto TRANSACTION_FAILED;
+				}
+			}
+			int numDays = stoi(numDays_str);
+			if(numDays > MAX_AUCTION_LEN){
+				cout << "failed: maximum length of an auction is 100 days" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			items.insert(pair<pair<string,string>, Item*>(pair<string,string>(itemName, sellerName), new Item(itemName, sellerName, NULL, numDays, minBid)));
 		} else if(input == "bid"){
 		//***************HANDLE BID TRANSACTION***************
 			
