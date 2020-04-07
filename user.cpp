@@ -14,20 +14,22 @@ private:
 	string username;
 	string type;
 	int credit;
+	int creditAdded;
 
 public:
 	//Constructor
 	User(string _username, string _type, int _credit){
 		username = _username;
 		type = _type;
-		credit = 0;
-		add_credit(_credit); //do it this way to make sure credit is not greater than MAX_CREDIT without having code repetition
+		credit = _credit;
+		creditAdded = 0;
 	}
 
 	//getters
 	string get_username(){return username;}
 	string get_type(){return type;}
 	int get_credit(){return credit;}
+	int get_creditAdded(){return creditAdded;}
 
 	//alter credit
 	void add_credit(int amount){

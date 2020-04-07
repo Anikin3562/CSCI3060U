@@ -10,6 +10,7 @@
 #define MAX_ITEMNAME_LEN 19
 #define MAX_CREDIT_DOLLAR_LEN 6
 #define MAX_CREDITS 99999900
+#define MAX_CREDITS_ADDED 100000
 
 using namespace std;
 
@@ -43,7 +44,7 @@ int main(int argc, char** argv){
 		if(input == "exit"){
 			break;
 		} else if(input == "login"){
-		//HANDLE LOGIN TRASACTION
+		//***************HANDLE LOGIN TRASACTION***************
 			cout << "enter username:" << endl;
 			input = getUserInput();
 			//check if username exists, if not print error message
@@ -53,7 +54,7 @@ int main(int argc, char** argv){
 				cout << "ERROR: account not found" << endl;
 			}
 		} else if(input == "logout"){
-		//HANDLE LOGOUT TRANSACTION
+		//***************HANDLE LOGOUT TRANSACTION***************
 			if(currentUser != NULL){
 				writeTransactionA(transactionOFS, "00", currentUser->get_username(), currentUser->get_type(), intToCreditString(currentUser->get_credit()));
 				currentUser = NULL;
@@ -62,7 +63,7 @@ int main(int argc, char** argv){
 				cout << "ERROR: must be logged in" << endl;
 			}
 		} else if(input == "create"){
-		//HANDLE CREATE TRANSACTION
+		//***************HANDLE CREATE TRANSACTION***************
 			//check if the current user is an admin, if not then continue, else print an error message
 			if(currentUser->get_type() == "AA"){
 				string username, type, credit_str;
@@ -86,35 +87,125 @@ int main(int argc, char** argv){
 						credit_str = getUserInput();
 						//check if credit_str is a valid integer, if not print an error message, else continue
 						if(!isStringValidCredit(credit_str)){
-							cout << "failed: credit must be entered in dollar (dot) decimal notation" << endl;
+							cout << "failed: credit must be positive and entered in dollar (dot) decimal notation" << endl;
 						} else{
 							credit = creditStringToInt(credit_str);
 							//check if credit is within bounds, if not then print error message, else continue to create new user account
 							if(credit > MAX_CREDITS){
 								cout << "failed: credit value too large, maximum is 999999.00" << endl;
 							} else{
-								//accounts.insert(pair<string, User*>(username,new User(username, type, credit))); maybe shouldn't actually insert, just leave it as a transaction and user becomes active after backend runs
+								accounts.insert(pair<string, User*>(username,new User(username, type, credit)));
 								writeTransactionA(transactionOFS, "01", username, type, intToCreditString(credit));
 							}
 						}
 					}
 				}
 			} else{
-				cout << "ERROR: transactoin not available" << endl;
+				cout << "ERROR: transaction not available" << endl;
 			}
 		} else if(input == "delete"){
-			
+		//***************HANDLE DELETE TRANSACTION***************
+			//make sure user is an admin
+			if(currentUser->get_type() == "AA"){
+				cout << "enter username:" << endl;
+				input = getUserInput();
+				//if the user is trying to delete themselves, print an error message
+				if(input == currentUser->get_username()){
+					cout << "ERROR: cannot delete self" << endl;
+				//if the username doesn't exist, print an error message
+				}else if(accounts.find(input)==accounts.end()){
+					cout << "failed: username does not exist" << endl;
+				//if neither of the previous guard conditions failed, write out the delete transaction
+				}else{
+					writeTransactionA(transactionOFS, "02", accounts[input]->get_username(), accounts[input]->get_type(), intToCreditString(accounts[input]->get_credit()));
+					delete accounts[input];
+					accounts.erase(input);
+				}
+			} else{
+				cout << "ERROR: transaction not available" << endl;
+			}
 		} else if(input == "addcredit"){
-			
+		//***************HANDLE ADDCREDIT TRANSACTION***************
+			string credit_str, username;
+			//check if user is an admin, this transaction works differently for admins and regular users
+			if(currentUser->get_type() == "AA"){
+			//get username for admins
+				string username;
+				cout << "enter the name of the user you wish to add credit to:" << endl;
+				username = getUserInput();
+				//if the username doesn't exist, print an error message
+				if(accounts.find(username)==accounts.end()){
+					cout << "failed: username does not exist" << endl;
+					goto TRANSACTION_FAILED;
+				}
+			} else{
+			//set username for non-admins (set it to equal their own username)
+				username = currentUser->get_username();
+			}
+			//continue wiht rest of transaction regardless of admin or non-admin
+			cout << "enter the amount of credit you wish to add:" << endl;
+			credit_str = getUserInput();
+			if(!isStringValidCredit(credit_str)){
+				cout << "failed: credit must be positive and entered in dollar (dot) decimal notation" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			int amount = creditStringToInt(credit_str);
+			if(accounts[username]->get_creditAdded()+amount > MAX_CREDITS_ADDED){
+				cout << "failed: no more than 1000.00 credits can be added to any one user per day" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			if(accounts[username]->get_credit()+amount > MAX_CREDITS){
+				cout << "failed: adding this amount would cause the user to exceed the credit limit" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			accounts[username]->add_credit(amount);
+			writeTransactionA(transactionOFS, "06", username, accounts[username]->get_type(), amount);
 		} else if(input == "refund"){
-			
+		//***************HANDLE REFUND TRANSACTOIN***************
+			if(currentUser->get_type() != "AA"){
+				cout << "ERROR: transaction not available" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter the buyer's username:" << endl;
+			string buyerName = getUserInput();
+			if(accounts.find(buyerName)==accounts.end()){
+				cout << "failed: username does not exist" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter the seller's username:" << endl;
+			string sellerName = getUserInput();
+			if(accounts.find(sellerName)==accounts.end()){
+				cout << "failed: username does not exist" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter the amount of credit you wish to refund:" << endl;
+			string credit_str = getUserInput();
+			if(!isStringValidCredit(credit_str)){
+				cout << "failed: credit must be positive and entered in dollar (dot) decimal notation" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			int amount = creditStringToInt(credit_str);
+			if(accounts[sellerName]->get_credit < amount){
+				cout << "failed: seller has insufficient funds" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			if(accounts[buyerName]->get_credit()+amount > MAX_CREDITS){
+				cout << "failed: adding this amount to buyer's account would cause the user to exceed the credit limit" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			accounts[sellerName]->remove_credit(amount);
+			accounts[buyerName]->add_credit(amount);
+			writeTransactionB(transactionOFS, "05", buyerName, sellerName, amount);
 		} else if(input == "advertise"){
-			
+		//***************HANDLE ADVERTISE TRANSACTION***************
+
 		} else if(input == "bid"){
+		//***************HANDLE BID TRANSACTION***************
 			
 		} else if(input != "exit"){
 			cout << "invalid input" << endl;
 		}
+		TRANSACTION_FAILED:
 	}
 	transactionOFS.close();
 	return 0;
@@ -147,7 +238,7 @@ bool isStringValidCredit(string s){
 	int i;
 	for(i=0; i < s.length(); i++){
 		if(s[i] == '.') break;
-		if(!isdigit(s[i])) return false;
+		if(!isdigit(s[i])) return false; //also returns false if it sees a '-' so negative numbers will not pass
 	}
 	int j = i+1;
 	for(j; j < s.length(); j++){
