@@ -240,9 +240,49 @@ int main(int argc, char** argv){
 				goto TRANSACTION_FAILED;
 			}
 			items.insert(pair<pair<string,string>, Item*>(pair<string,string>(itemName, sellerName), new Item(itemName, sellerName, NULL, numDays, minBid)));
+			writeTransactionC(transactionOFS, "03", itemName, sellerName, numDays, intToCreditString(minBid));
 		} else if(input == "bid"){
 		//***************HANDLE BID TRANSACTION***************
-			
+			if(currentUser->get_type() == "SS"){
+				cout << "ERROR: transaction not available" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			cout << "enter item name:" << endl;
+			string itemName = getUserInput();
+			cout << "enter seller name:" << endl;
+			string sellerName = getUserInput();
+			if(items[pair<string,string>(itemName, sellerName)] == items.end()){
+				cout << "failed: item not found" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			if(sellerName == currentUser->get_username()){
+				cout << "failed: cannot bid on your own item" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			Item item = items[pair<string,string>(itemName, sellerName)];
+			cout << "highest bid: $" << intToCreditString(item->get_price()) << endl;
+			cout << "enter your bid:" << endl;
+			string bid_str = getUserInput();
+			if(!isStringValidCredit(bid_str)){
+				cout << "failed: bid must be positive and entered in dollar (dot) decimal notation" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			int bid = creditStringToInt(bid_str);
+			if(bid > currentUser->get_credit()){
+				cout << "failed: insufficient funds" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			if(currentUser->get_type() == "AA" && !(bid > item->get_price())){
+				cout << "failed: your bid must be higher than highest bid" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			if(currentUser->get_type() != "AA" && !(bid >= 1.05*item->get_price())){
+				cout << "failed: your bid must be at least 5% higher than highest bid" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			item.updateBid(currentUser->get_username(), bid);
+			currentUser->remove_credit(bid);
+			writeTransactionD(transactionOFS, "04", itemName, sellerName, currentUser->get_username(), bid);
 		} else if(input != "exit"){
 			cout << "invalid input" << endl;
 		}
