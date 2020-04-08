@@ -1,10 +1,9 @@
 enter transaction:
 enter username:
-(adminuser1) enter transaction:
+(Bob) enter transaction:
 enter the name of the item you wish to advertise:
 enter the minimum bid for the item:
 enter the number of days the auction will run for:
 failed: maximum length of an auction is 100 days
-(adminuser1) enter transaction:
-successfully logged out
+(Bob) enter transaction:
 enter transaction:

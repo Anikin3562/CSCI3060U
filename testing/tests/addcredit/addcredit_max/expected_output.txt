@@ -1,8 +1,11 @@
 enter transaction:
 enter username:
-(adminuser1) enter transaction:
+(Bob) enter transaction:
+enter the name of the user you wish to add credit to:
+enter the amount of credit you wish to add:
+(Bob) enter transaction:
 enter the name of the user you wish to add credit to:
 enter the amount of credit you wish to add:
 failed: no more than 1000.00 credits can be added to any one user per day
-successfully logged out
+(Bob) enter transaction:
 enter transaction:

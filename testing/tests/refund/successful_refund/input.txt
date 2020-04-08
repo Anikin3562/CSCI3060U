@@ -3,6 +3,6 @@ Bob
 refund
 john
 Marry Sue
-1
+1.00
 logout
 exit

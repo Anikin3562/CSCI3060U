@@ -1,22 +1,21 @@
+enter transaction:
 enter username:
-successful login
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $1.00
 enter your bid:
-failed: invalid bid
+failed: bid must be positive and entered in dollar (dot) decimal notation
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $1.00
 enter your bid:
-failed: invalid bid
-enter item name:
-enter seller name:
-highest bid: $1.00
-enter your bid:
-successful bid
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $999.99
 enter your bid:
-failed: maximum you can bid is $999.99
+failed: bid cannot exceed 999.99
+(Bob) enter transaction:
+enter transaction:

@@ -1,2 +1,2 @@
-05 john            Mary Sue        000001.00
+05 john            Marry Sue       000001.00
 00 Bob             AA 010000.00

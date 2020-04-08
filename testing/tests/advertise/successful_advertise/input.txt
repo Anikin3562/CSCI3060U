@@ -1,8 +1,8 @@
 login
-adminuser1
+Bob
 advertise
-adminuser1_item
-15
+dirt
+15.00
 3
 logout
 exit

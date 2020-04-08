@@ -1,4 +1,7 @@
+enter transaction:
 enter username:
-successful login
-enter username to delete
+(Bob) enter transaction:
+enter username:
 failed: username does not exist
+(Bob) enter transaction:
+enter transaction:

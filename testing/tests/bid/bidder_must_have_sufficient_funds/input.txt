@@ -3,7 +3,7 @@ Marry Sue
 bid
 guitar
 Bob
-100
+100.00
 bid
 guitar
 Bob

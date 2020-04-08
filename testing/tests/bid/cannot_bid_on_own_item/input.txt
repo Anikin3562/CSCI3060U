@@ -1,5 +1,6 @@
 login
 Bob
+bid
 guitar
 Bob
 logout

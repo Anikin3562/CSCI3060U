@@ -1,5 +1,5 @@
 login
-bsuser1
+c00l guy #1
 advertise
 logout
 exit

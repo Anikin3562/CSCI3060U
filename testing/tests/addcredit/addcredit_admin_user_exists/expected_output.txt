@@ -1,5 +1,7 @@
 enter transaction:
 enter username:
-(adminuser1) enter transaction:
+(Bob) enter transaction:
 enter the name of the user you wish to add credit to:
 failed: username does not exist
+(Bob) enter transaction:
+enter transaction:

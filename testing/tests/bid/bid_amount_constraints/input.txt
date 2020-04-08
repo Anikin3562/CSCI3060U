@@ -3,11 +3,7 @@ Bob
 bid
 blue hat
 john
--1
-bid
-blue hat
-john
-0
+-0.01
 bid
 blue hat
 john

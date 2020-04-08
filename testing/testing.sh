@@ -69,7 +69,7 @@ do
 done
 
 #addcredit tests
-for TEST in addcredit_admin addcredit_admin_user_exists addcredit_exceeds_max addcredit_max addcredit_min addcredit_standard
+for TEST in addcredit_admin addcredit_admin_user_exists addcredit_max addcredit_standard
 do
 	>output.txt #empty output.txt
 	>transactions.txt #empty daily_transactions.txt
@@ -86,7 +86,7 @@ do
 done
 
 #advertise tests
-for TEST in auction_length_lower auction_length_upper auction_output has_permissions item_name_length mid_bid_upper min_bid_lower
+for TEST in auction_length_lower auction_length_upper has_permissions item_name_length mid_bid_upper min_bid_lower successful_advertise
 do
 	>output.txt #empty output.txt
 	>transactions.txt #empty daily_transactions.txt

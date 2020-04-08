@@ -1,3 +1,6 @@
+enter transaction:
 enter username:
-successful login
-failed: sell-standard users cannot bid
+(john) enter transaction:
+ERROR: transaction not available
+(john) enter transaction:
+enter transaction:

@@ -1,6 +1,6 @@
 login
-joe
+Marry Sue
 addcredit
-500
+500.00
 logout
 exit

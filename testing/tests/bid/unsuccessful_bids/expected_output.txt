@@ -1,8 +1,12 @@
+enter transaction:
 enter username:
-successful login
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 failed: item not found
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 failed: item not found
+(Bob) enter transaction:
+enter transaction:

@@ -1,5 +1,5 @@
 login
-adminuser1
+Bob
 addcredit
 not_a_username
 logout

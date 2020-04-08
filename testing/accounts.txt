@@ -4,4 +4,4 @@ c00l guy #1     BS 999999.00
 john            SS 000000.00
 asdasdasdasdasd AA 000010.00
 ~!@#$%^&*()_+?  FS 100000.00
-END                000000.00
+END

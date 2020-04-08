@@ -1,6 +1,6 @@
 login
-adminuser1
+Bob
 advertise
-adminuser1-item-name-too-long
+xxxxxxxxxxxxxxxxxxxx
 logout
 exit

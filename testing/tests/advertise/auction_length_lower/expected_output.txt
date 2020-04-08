@@ -1,8 +1,9 @@
 enter transaction:
 enter username:
-(adminuser1) enter transaction:
+(Bob) enter transaction:
 enter the name of the item you wish to advertise:
 enter the minimum bid for the item:
 enter the number of days the auction will run for:
-failed: number of days must be positive and entered as a valid integer
-(adminuser1) enter transaction:
+failed: auction must run for at least 1 day
+(Bob) enter transaction:
+enter transaction:

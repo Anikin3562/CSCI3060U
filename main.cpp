@@ -234,6 +234,10 @@ int main(int argc, char** argv){
 				}
 			}
 			int numDays = stoi(numDays_str);
+			if(numDays <= 0){
+				cout << "failed: auction must run for at least 1 day" << endl;
+				goto TRANSACTION_FAILED;
+			}
 			if(numDays > MAX_AUCTION_LEN){
 				cout << "failed: maximum length of an auction is 100 days" << endl;
 				goto TRANSACTION_FAILED;
@@ -269,6 +273,10 @@ int main(int argc, char** argv){
 			int bid = creditStringToInt(bid_str);
 			if(bid > currentUser->get_credit()){
 				cout << "failed: insufficient funds" << endl;
+				goto TRANSACTION_FAILED;
+			}
+			if(bid > MAX_ITEM_PRICE){
+				cout << "failed: bid cannot exceed 999.99" << endl;
 				goto TRANSACTION_FAILED;
 			}
 			if(currentUser->get_type() == "AA" && !(bid > item->get_price())){

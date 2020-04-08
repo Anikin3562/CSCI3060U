@@ -1,2 +1,0 @@
-06 adminuser1      AA 000500.00
-00 adminuser1      AA 000110.00

@@ -1,4 +1,5 @@
 enter transaction:
+enter username:
 (Bob) enter transaction:
 enter the buyer's username:
 enter the seller's username:

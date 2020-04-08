@@ -1,7 +1,7 @@
 login
-adminuser1
+Bob
 advertise
 item2
--1
+-0.01
 logout
 exit

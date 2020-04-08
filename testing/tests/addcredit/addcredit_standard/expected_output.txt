@@ -1,7 +1,6 @@
 enter transaction:
 enter username:
-(joe) enter transaction:
+(Marry Sue) enter transaction:
 enter the amount of credit you wish to add:
-(joe) enter transaction:
-successfully logged out
+(Marry Sue) enter transaction:
 enter transaction:

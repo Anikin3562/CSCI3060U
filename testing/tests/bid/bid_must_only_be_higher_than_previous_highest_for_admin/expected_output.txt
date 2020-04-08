@@ -1,12 +1,15 @@
+enter transaction:
 enter username:
-successful login
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $1.00
 enter your bid:
 failed: your bid must be higher than highest bid
+(Bob) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $1.00
 enter your bid:
-successful bid
+(Bob) enter transaction:
+enter transaction:

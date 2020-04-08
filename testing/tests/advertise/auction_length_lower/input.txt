@@ -1,8 +1,8 @@
 login
-adminuser1
+Bob
 advertise
-adminuser1_item
-15
+toast
+15.00
 0
 logout
 exit

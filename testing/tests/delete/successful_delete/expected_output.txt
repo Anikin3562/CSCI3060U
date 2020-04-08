@@ -1,4 +1,6 @@
+enter transaction:
 enter username:
-successful create
-enter username to delete:
-successful delete
+(Bob) enter transaction:
+enter username:
+(Bob) enter transaction:
+enter transaction:

@@ -1,12 +1,15 @@
+enter transaction:
 enter username:
-successful login
+(Marry Sue) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $0.01
 enter your bid:
-successful bid
+(Marry Sue) enter transaction:
 enter item name:
 enter seller name:
 highest bid: $100.00
 enter your bid:
 failed: insufficient funds
+(Marry Sue) enter transaction:
+enter transaction:
