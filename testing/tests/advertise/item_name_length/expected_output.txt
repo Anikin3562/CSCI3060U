@@ -1,0 +1,8 @@
+enter transaction:
+enter username:
+(adminuser1) enter transaction:
+enter the name of the item you wish to advertise:
+failed: max item name length is 19 characters
+(adminuser1) enter transaction: logout
+successfully logged out
+enter transaction:

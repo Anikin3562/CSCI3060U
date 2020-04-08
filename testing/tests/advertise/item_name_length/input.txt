@@ -1,0 +1,6 @@
+login
+adminuser1
+advertise
+adminuser1-item-name-too-long
+logout
+exit

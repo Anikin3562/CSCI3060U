@@ -1,0 +1,18 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter transaction:
+ERROR: must be logged in
+enter transaction:
+ERROR: must be logged in
+enter transaction:
+ERROR: must be logged in
+enter transaction:
+ERROR: must be logged in
+enter transaction:
+ERROR: must be logged in
+enter transaction:
+ERROR: must be logged in
+enter transaction:
+ERROR: must be logged in
+enter transaction:

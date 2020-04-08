@@ -1,0 +1,8 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter the username of the new user:
+enter the user's type:
+enter the amount of credits the user will start with:
+(Bob) enter transaction:
+enter transaction:

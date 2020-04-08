@@ -1,0 +1,26 @@
+enter transaction:
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+enter the amount of credit you wish to refund:
+failed: invalid credit value
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+enter the amount of credit you wish to refund:
+failed: invalid credit value
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+enter the amount of credit you wish to refund:
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+enter the amount of credit you wish to refund:
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+enter the amount of credit you wish to refund:
+failed: adding this amount to buyer's account would cause the user to exceed the credit limit
+(Bob) enter transaction:
+enter transaction:

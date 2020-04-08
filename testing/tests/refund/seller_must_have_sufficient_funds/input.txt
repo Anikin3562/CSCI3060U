@@ -1,0 +1,12 @@
+login
+Bob
+refund
+john
+Marry Sue
+100.01
+refund
+john
+Marry Sue
+100.00
+logout
+exit

@@ -1,0 +1,6 @@
+login
+Bob
+create
+abcdefghijklmnop
+logout
+exit

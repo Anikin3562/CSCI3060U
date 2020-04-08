@@ -1,0 +1,7 @@
+enter transaction:
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+enter the amount of credit you wish to refund:
+(Bob) enter transaction:
+enter transaction:

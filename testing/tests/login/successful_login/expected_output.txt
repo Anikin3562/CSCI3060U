@@ -1,0 +1,4 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter transaction:

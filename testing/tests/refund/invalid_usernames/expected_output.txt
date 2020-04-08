@@ -1,0 +1,10 @@
+enter transaction:
+(Bob) enter transaction:
+enter the buyer's username:
+failed: username does not exist
+(Bob) enter transaction:
+enter the buyer's username:
+enter the seller's username:
+failed: username does not exist
+(Bob) enter transaction:
+enter transaction:

@@ -1,0 +1,8 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter the username of the new user:
+enter the user's type:
+failed: valid user types are AA (admin), FS (full standard), BS (buy standard), and SS (sell standard)
+(Bob) enter transaction:
+enter transaction:

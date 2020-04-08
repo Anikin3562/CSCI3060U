@@ -1,0 +1,16 @@
+enter transaction:
+(Marry Sue) enter transaction:
+ERROR: transaction not available
+(Marry Sue) enter transaction:
+successfully logged out
+enter transaction:
+(cool guy #1) enter transaction:
+ERROR: transaction not available
+(cool guy #1) enter transaction:
+successfully logged out
+enter transaction:
+(John) enter transaction:
+ERROR: transaction not available
+(John)enter transaction:
+successfully logged out
+enter transaction:

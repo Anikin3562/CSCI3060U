@@ -1,0 +1,7 @@
+enter transaction:
+enter username:
+(joe) enter transaction:
+enter the amount of credit you wish to add:
+(joe) enter transaction:
+successfully logged out
+enter transaction:

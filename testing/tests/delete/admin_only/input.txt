@@ -1,0 +1,5 @@
+login
+Marry Sue
+delete
+logout
+exit

@@ -1,0 +1,24 @@
+login
+Bob
+refund
+john
+Marry Sue
+-1
+refund
+john
+Marry Sue
+0
+refund
+john
+Marry Sue
+0.01
+refund
+Marry Sue
+john
+0.01
+refund
+Marry Sue
+john
+1000000
+logout
+exit

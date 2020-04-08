@@ -41,29 +41,29 @@ int main(int argc, char** argv){
 	User* currentUser = NULL;
 
 	while(true){
-		cout << (currentUser != NULL ? "("+currentUser->get_username()+") " : "")  << "enter transaction: " << endl;
+		TRANSACTION_FAILED: //label used to escape transactions with the forbidden goto when a user's input fails a constraint
+		cout << (currentUser != NULL ? "("+currentUser->get_username()+") " : "")  << "enter transaction:" << endl;
 		input = getUserInput();
-		if(input == "exit"){
-			break;
-		} else if(input == "login"){
-		//***************HANDLE LOGIN TRASACTION***************
-			cout << "enter username:" << endl;
-			input = getUserInput();
-			//check if username exists, if not print error message
-			if(accounts.find(input)!=accounts.end()){
-				currentUser = accounts[input];
-			} else{
-				cout << "ERROR: account not found" << endl;
+		if(currentUser == NULL){
+			if(input == "exit"){
+				break;
+			} else if(input == "login"){
+			//***************HANDLE LOGIN TRASACTION***************
+				cout << "enter username:" << endl;
+				input = getUserInput();
+				//check if username exists, if not print error message
+				if(accounts.find(input)!=accounts.end()){
+					currentUser = accounts[input];
+				} else{
+					cout << "ERROR: account not found" << endl;
+				}
+			} else if (input == "logout" || input == "create" || input == "delete" || input == "addcredit" || input == "refund" || input == "advertise" || input == "bid"){
+				cout << "ERROR: must be logged in" << endl;
 			}
 		} else if(input == "logout"){
 		//***************HANDLE LOGOUT TRANSACTION***************
-			if(currentUser != NULL){
-				writeTransactionA(transactionOFS, "00", currentUser->get_username(), currentUser->get_type(), intToCreditString(currentUser->get_credit()));
-				currentUser = NULL;
-				cout << "logout successful" << endl;
-			} else{
-				cout << "ERROR: must be logged in" << endl;
-			}
+			writeTransactionA(transactionOFS, "00", currentUser->get_username(), currentUser->get_type(), intToCreditString(currentUser->get_credit()));
+			currentUser = NULL;
 		} else if(input == "create"){
 		//***************HANDLE CREATE TRANSACTION***************
 			//check if the current user is an admin, if not then continue, else print an error message
@@ -132,7 +132,6 @@ int main(int argc, char** argv){
 			//check if user is an admin, this transaction works differently for admins and regular users
 			if(currentUser->get_type() == "AA"){
 			//get username for admins
-				string username;
 				cout << "enter the name of the user you wish to add credit to:" << endl;
 				username = getUserInput();
 				//if the username doesn't exist, print an error message
@@ -161,7 +160,7 @@ int main(int argc, char** argv){
 				goto TRANSACTION_FAILED;
 			}
 			accounts[username]->add_credit(amount);
-			writeTransactionA(transactionOFS, "06", username, accounts[username]->get_type(), amount);
+			writeTransactionA(transactionOFS, "06", username, accounts[username]->get_type(), intToCreditString(amount));
 		} else if(input == "refund"){
 		//***************HANDLE REFUND TRANSACTOIN***************
 			if(currentUser->get_type() != "AA"){
@@ -187,7 +186,7 @@ int main(int argc, char** argv){
 				goto TRANSACTION_FAILED;
 			}
 			int amount = creditStringToInt(credit_str);
-			if(accounts[sellerName]->get_credit < amount){
+			if(accounts[sellerName]->get_credit() < amount){
 				cout << "failed: seller has insufficient funds" << endl;
 				goto TRANSACTION_FAILED;
 			}
@@ -197,21 +196,21 @@ int main(int argc, char** argv){
 			}
 			accounts[sellerName]->remove_credit(amount);
 			accounts[buyerName]->add_credit(amount);
-			writeTransactionB(transactionOFS, "05", buyerName, sellerName, amount);
+			writeTransactionB(transactionOFS, "05", buyerName, sellerName, intToCreditString(amount));
 		} else if(input == "advertise"){
 		//***************HANDLE ADVERTISE TRANSACTION***************
 			if(currentUser->get_type() == "BS"){
 				cout << "ERROR: transaction not available" << endl;
 				goto TRANSACTION_FAILED;
 			}
-			cout << "enter the name of the item you wish to advertise:"
+			cout << "enter the name of the item you wish to advertise:" << endl;
 			string itemName = getUserInput();
 			if(itemName.length() > MAX_ITEMNAME_LEN){
 				cout << "failed: max item name length is 19 characters" << endl;
 				goto TRANSACTION_FAILED;
 			}
-			string sellerName = currentUser->get_username;
-			if(items[pair<string,string>(itemName, sellerName)] != items.end()){
+			string sellerName = currentUser->get_username();
+			if(items.find(pair<string,string>(itemName, sellerName)) != items.end()){
 				cout << "failed: you are already selling an item with this name" << endl;
 				goto TRANSACTION_FAILED;
 			}
@@ -239,8 +238,8 @@ int main(int argc, char** argv){
 				cout << "failed: maximum length of an auction is 100 days" << endl;
 				goto TRANSACTION_FAILED;
 			}
-			items.insert(pair<pair<string,string>, Item*>(pair<string,string>(itemName, sellerName), new Item(itemName, sellerName, NULL, numDays, minBid)));
-			writeTransactionC(transactionOFS, "03", itemName, sellerName, numDays, intToCreditString(minBid));
+			items.insert(pair<pair<string,string>, Item*>(pair<string,string>(itemName, sellerName), new Item(itemName, sellerName, "", numDays, minBid)));
+			writeTransactionC(transactionOFS, "03", itemName, sellerName, to_string(numDays), intToCreditString(minBid));
 		} else if(input == "bid"){
 		//***************HANDLE BID TRANSACTION***************
 			if(currentUser->get_type() == "SS"){
@@ -251,7 +250,7 @@ int main(int argc, char** argv){
 			string itemName = getUserInput();
 			cout << "enter seller name:" << endl;
 			string sellerName = getUserInput();
-			if(items[pair<string,string>(itemName, sellerName)] == items.end()){
+			if(items.find(pair<string,string>(itemName, sellerName)) == items.end()){
 				cout << "failed: item not found" << endl;
 				goto TRANSACTION_FAILED;
 			}
@@ -259,7 +258,7 @@ int main(int argc, char** argv){
 				cout << "failed: cannot bid on your own item" << endl;
 				goto TRANSACTION_FAILED;
 			}
-			Item item = items[pair<string,string>(itemName, sellerName)];
+			Item* item = items[pair<string,string>(itemName, sellerName)];
 			cout << "highest bid: $" << intToCreditString(item->get_price()) << endl;
 			cout << "enter your bid:" << endl;
 			string bid_str = getUserInput();
@@ -280,20 +279,21 @@ int main(int argc, char** argv){
 				cout << "failed: your bid must be at least 5% higher than highest bid" << endl;
 				goto TRANSACTION_FAILED;
 			}
-			item.updateBid(currentUser->get_username(), bid);
+			item->updateBid(currentUser->get_username(), bid);
 			currentUser->remove_credit(bid);
-			writeTransactionD(transactionOFS, "04", itemName, sellerName, currentUser->get_username(), bid);
-		} else if(input != "exit"){
+			writeTransactionD(transactionOFS, "04", itemName, sellerName, currentUser->get_username(), intToCreditString(bid));
+		} else{
 			cout << "invalid input" << endl;
 		}
-		TRANSACTION_FAILED:
 	}
 	transactionOFS.close();
 	return 0;
 }
 
 string intToCreditString(int credit){
-	return to_string(credit/100) + '.' + to_string(credit%100);
+	string extra0 = "";
+	if(credit%100 < 10) extra0 = "0";
+	return to_string(credit/100) + '.' + extra0 + to_string(credit%100);
 }
 
 int creditStringToInt(string s){

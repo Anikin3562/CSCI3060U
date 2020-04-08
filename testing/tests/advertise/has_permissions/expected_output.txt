@@ -1,0 +1,7 @@
+enter transaction:
+enter username:
+(bsuser1) enter transaction:
+ERROR: transaction not available
+(bsuser1) enter transaction:
+successfully logged out
+enter transaction:

@@ -1,0 +1,6 @@
+enter transaction:
+enter username:
+(Marry Sue) enter transaction:
+ERROR: transaction not available
+(Marry Sue) enter transaction:
+enter transaction:

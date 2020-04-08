@@ -1,0 +1,6 @@
+login
+joe
+addcredit
+500
+logout
+exit

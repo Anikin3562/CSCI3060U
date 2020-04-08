@@ -1,0 +1,7 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter the username of the new user:
+failed: usernames must be 15 characters or less
+(Bob) enter transaction:
+enter transaction:

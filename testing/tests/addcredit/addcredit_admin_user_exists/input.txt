@@ -1,0 +1,6 @@
+login
+adminuser1
+addcredit
+not_a_username
+logout
+exit

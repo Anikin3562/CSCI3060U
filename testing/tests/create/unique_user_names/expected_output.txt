@@ -1,0 +1,7 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter the username of the new user:
+failed: username already exists
+(Bob) enter transaction:
+enter transaction:

@@ -1,0 +1,7 @@
+enter transaction:
+enter username:
+(Bob) enter transaction:
+enter username:
+ERROR: cannot delete self
+(Bob) enter transaction:
+enter transaction:

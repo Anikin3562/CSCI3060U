@@ -1,0 +1,6 @@
+login
+Bob
+guitar
+Bob
+logout
+exit

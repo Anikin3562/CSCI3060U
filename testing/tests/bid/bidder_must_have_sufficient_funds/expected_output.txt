@@ -1,0 +1,12 @@
+enter username:
+successful login
+enter item name:
+enter seller name:
+highest bid: $0.01
+enter your bid:
+successful bid
+enter item name:
+enter seller name:
+highest bid: $100.00
+enter your bid:
+failed: insufficient funds

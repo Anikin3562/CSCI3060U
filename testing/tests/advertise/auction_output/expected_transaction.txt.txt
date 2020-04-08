@@ -1,0 +1,2 @@
+03 adminuser1_item           adminuser1      003 015.00
+00 adminuser1      AA 000110.00

@@ -34,6 +34,7 @@ public:
 	//alter credit
 	void add_credit(int amount){
 		credit += amount;
+		creditAdded += amount;
 	}
 	void remove_credit(int amount){
 		credit -= amount;
